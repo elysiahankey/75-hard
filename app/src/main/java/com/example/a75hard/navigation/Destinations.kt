@@ -1,0 +1,50 @@
+package com.example.a75hard.navigation
+
+import androidx.compose.material3.Icon
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.painterResource
+import com.example.a75hard.R
+
+interface Destination {
+    val name: String
+    val route: String
+    val icon: @Composable () -> Unit
+}
+
+object Home : Destination {
+    override val name = "Home"
+    override val route = "home"
+    override val icon = @androidx.compose.runtime.Composable {
+        Icon(
+            painterResource(R.drawable.ic_search),
+            contentDescription = null
+        )
+    }
+}
+
+object Rules : Destination {
+    override val name = "Rules"
+    override val route = "rules"
+    override val icon = @androidx.compose.runtime.Composable {
+        Icon(
+            painterResource(R.drawable.ic_search),
+            contentDescription = null
+        )
+    }
+}
+
+object DayScreen : Destination {
+    override val name = "Day Screen"
+    override val route = "dayscreen/{day}"
+
+    override val icon: @Composable () -> Unit = {
+        Icon(
+            painter = painterResource(R.drawable.ic_search),
+            contentDescription = null
+        )
+    }
+
+    fun createRoute(day: String): String = "dayscreen/$day"
+}
+
+val topLevelRoutes = listOf(Home, Rules)
