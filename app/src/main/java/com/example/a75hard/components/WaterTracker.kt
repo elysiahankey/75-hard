@@ -21,6 +21,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,88 +34,114 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.a75hard.R
 import com.example.a75hard.helpers.WaterPrefs
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
-fun WaterTracker(dayNumber: String) { // Pass in the day identifier (e.g., "Day 1")
+fun WaterTracker(dayNumber: String) {
     val context = LocalContext.current
-    val waterFlow = WaterPrefs.getWaterProgress(context, dayNumber)
-    var currentProgress by remember { mutableStateOf(0f) }
+    val goal = 4500f
 
-    LaunchedEffect(waterFlow) {
-        waterFlow.collect { progress ->
-            currentProgress = progress
+    // 1. State for current progress (mutable locally)
+    var currentProgress by remember { mutableStateOf<Float?>(null) }
+
+    val coroutineScope = rememberCoroutineScope()
+
+    // 2. Read from DataStore only once on first composition
+    LaunchedEffect(dayNumber) {
+        WaterPrefs.getWaterProgress(context, dayNumber).collect { savedProgress ->
+            if (currentProgress == null) {
+                currentProgress = savedProgress
+            }
         }
     }
 
     var input by remember { mutableStateOf("") }
-    val goal = 4500f
 
-    LaunchedEffect(currentProgress) {
-        WaterPrefs.saveWaterProgress(context, currentProgress, dayNumber)
-    }
+    // Only render UI when the progress is loaded
+    currentProgress?.let { progress ->
 
-    Column(
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Row(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(IntrinsicSize.Min)
+                .padding(16.dp)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TextField(
-                value = input,
-                onValueChange = { input = it },
-                label = { Text(text = stringResource(R.string.water_tracker_input_label)) },
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Done
-                ),
-                keyboardActions = KeyboardActions(
-                    onDone = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(IntrinsicSize.Min)
+            ) {
+                TextField(
+                    value = input,
+                    onValueChange = { input = it },
+                    label = { Text(text = stringResource(R.string.water_tracker_input_label)) },
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            val inputValue = input.toFloatOrNull()
+                            if (inputValue != null) {
+                                val updated = (progress * goal + inputValue).coerceAtMost(goal)
+                                currentProgress = updated / goal
+                                coroutineScope.launch {
+                                    WaterPrefs.saveWaterProgress(context, updated / goal, dayNumber)
+                                }
+                                input = ""
+                            }
+                        }
+                    ),
+                    singleLine = true,
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                )
+
+                Button(
+                    onClick = {
                         val inputValue = input.toFloatOrNull()
                         if (inputValue != null) {
-                            // Update the current progress based on input
-                            currentProgress =
-                                (currentProgress + inputValue).coerceAtMost(goal) / goal
-                            input = "" // Reset input after submission
+                            val updated = (progress * goal + inputValue).coerceAtMost(goal)
+                            currentProgress = updated / goal
+                            coroutineScope.launch {
+                                WaterPrefs.saveWaterProgress(context, updated / goal, dayNumber)
+                            }
+                            input = ""
                         }
-                    }
-                ),
-                singleLine = true,
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
-            )
-
-            Button(
-                onClick = {
-                    val inputValue = input.toFloatOrNull()
-                    if (inputValue != null) {
-                        // Update the current progress based on input
-                        currentProgress = (currentProgress + inputValue).coerceAtMost(goal) / goal
-                        input = "" // Reset input after submission
-                    }
-                },
-                shape = RectangleShape,
-                modifier = Modifier.fillMaxHeight()
-            ) {
-                Text(text = stringResource(R.string.water_tracker_button_label))
+                    },
+                    shape = RectangleShape,
+                    modifier = Modifier.fillMaxHeight()
+                ) {
+                    Text(text = stringResource(R.string.water_tracker_button_label))
+                }
             }
+
+            Spacer(modifier = Modifier.size(20.dp))
+
+            LinearProgressIndicator(progress = { progress }, modifier = Modifier.fillMaxWidth())
+
+            Spacer(modifier = Modifier.size(20.dp))
+
+            Text(text = "${(progress * 100).toInt()}% of daily goal")
         }
+    }
+}
 
-        Spacer(modifier = Modifier.size(20.dp))
 
+@Composable
+fun LinearDeterminateIndicator(currentProgress: Float) {
+
+    Column(
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxWidth()
+    ) {
         LinearProgressIndicator(
             progress = { currentProgress },
             modifier = Modifier.fillMaxWidth(),
         )
-
-        Spacer(modifier = Modifier.size(20.dp))
-
-        Text(text = "${(currentProgress * 100).toInt()}% of daily goal")
     }
 }
 
