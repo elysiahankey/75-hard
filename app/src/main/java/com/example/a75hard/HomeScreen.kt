@@ -34,6 +34,8 @@ fun HomeScreen(navController: NavHostController, onClickDay: (String) -> Unit) {
                 .padding(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(modifier = Modifier.size(40.dp))
+
             Text(
                 text = stringResource(R.string.home_screen_title),
                 style = MaterialTheme.typography.displayLarge,
@@ -51,7 +53,6 @@ fun HomeScreen(navController: NavHostController, onClickDay: (String) -> Unit) {
         }
     }
 }
-
 
 @Preview
 @Composable

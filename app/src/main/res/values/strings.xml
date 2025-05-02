@@ -19,4 +19,7 @@
     <string name="day_screen_water_drank">Water drank:</string>
     <string name="day_screen_pages_read">Pages read:</string>
     <string name="day_screen_progress_photo">Progress photo</string>
+
+    <string name="water_tracker_input_label">Add water</string>
+    <string name="water_tracker_button_label">Add</string>
 </resources>

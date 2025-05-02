@@ -32,9 +32,12 @@ fun ChallengeRulesScreen(navController: NavHostController) {
                 .fillMaxSize()
                 .padding(20.dp)
         ) {
+            Spacer(modifier = Modifier.size(40.dp))
+
             Row(
                 horizontalArrangement = Arrangement.Center
             ) {
+
                 Text(
                     text = stringResource(R.string.challenge_rules_header),
                     style = MaterialTheme.typography.displayLarge,

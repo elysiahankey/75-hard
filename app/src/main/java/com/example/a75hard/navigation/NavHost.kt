@@ -41,7 +41,10 @@ fun NavHost(navController: NavHostController) {
         }
         composable(route = "dayscreen/{day}") { backStackEntry ->
             val day = backStackEntry.arguments?.getString("day") ?: "1" // default fallback
-            DayScreen(day = day)
+            DayScreen(
+                navController = navController,
+                day = day
+            )
         }
     }
 }
