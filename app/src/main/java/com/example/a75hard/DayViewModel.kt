@@ -1,17 +1,15 @@
 package com.example.a75hard
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.example.a75hard.helpers.DataStoreManager
 import com.example.a75hard.helpers.ProgressPhotoHelper
 import com.example.a75hard.helpers.WaterHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,14 +21,13 @@ class DayViewModel @Inject constructor(
 
     private val dayNumber: String = savedStateHandle["dayNumber"] ?: "1"
 
+    private lateinit var homeViewModel: HomeViewModel
+
     private val _checked = MutableStateFlow(false)
-    val checked: StateFlow<Boolean> = _checked
-
     private val _waterDrank = MutableStateFlow(0)
-    val waterDrank: StateFlow<Int> = _waterDrank
-
     private val _photoUploaded = MutableStateFlow(false)
-    val photoUploaded: StateFlow<Boolean> = _photoUploaded
+
+    val waterDrank: StateFlow<Int> = _waterDrank
 
     val isDayComplete: StateFlow<Boolean> = combine(
         _checked, _waterDrank, _photoUploaded
@@ -38,11 +35,24 @@ class DayViewModel @Inject constructor(
         checked && water >= 4500 && photo
     }.stateIn(viewModelScope, SharingStarted.Eagerly, false)
 
-    init {
-        loadWaterProgress()
-        loadPhotoState()
+    fun bindHomeViewModel(homeViewModel: HomeViewModel) {
+        this.homeViewModel = homeViewModel
+
+        viewModelScope.launch {
+            // Collect the isDayComplete value
+            isDayComplete.collect { complete ->
+                Log.d("DayViewModel", "isDayComplete changed to: $complete")
+
+                if (complete) {
+                    homeViewModel.markDayComplete(dayNumber)
+                } else {
+                    homeViewModel.markDayIncomplete(dayNumber)
+                }
+            }
+        }
     }
 
+    // Your setters
     fun setChecked(value: Boolean) {
         _checked.value = value
     }
@@ -62,16 +72,21 @@ class DayViewModel @Inject constructor(
         }
     }
 
+    fun setPhotoUploaded(uploaded: Boolean) {
+        _photoUploaded.value = uploaded
+    }
+
+    init {
+        loadWaterProgress()
+        loadPhotoState()
+    }
+
     private fun loadWaterProgress() {
         viewModelScope.launch {
             WaterHelper.getWaterProgress(getApplication(), dayNumber).collect { progress ->
                 _waterDrank.value = (progress * 4500).toInt()
             }
         }
-    }
-
-    fun setPhotoUploaded(uploaded: Boolean) {
-        _photoUploaded.value = uploaded
     }
 
     private fun loadPhotoState() {
@@ -82,5 +97,3 @@ class DayViewModel @Inject constructor(
         }
     }
 }
-
-

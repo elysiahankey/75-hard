@@ -1,15 +1,16 @@
 package com.example.a75hard.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import com.example.a75hard.ChallengeRulesScreen
 import com.example.a75hard.DayScreen
+import com.example.a75hard.DayViewModel
 import com.example.a75hard.HomeScreen
+import com.example.a75hard.HomeViewModel
 
 fun NavHostController.navigateTo(route: String) =
     this.navigate(route) {
@@ -39,11 +40,16 @@ fun NavHost(navController: NavHostController) {
         composable(route = Rules.route) {
             ChallengeRulesScreen(navController)
         }
-        composable(route = "dayscreen/{day}") { backStackEntry ->
-            val day = backStackEntry.arguments?.getString("day") ?: "1" // default fallback
+        composable(route = "dayscreen/{dayNumber}") { backStackEntry ->
+            val dayNumber = backStackEntry.arguments?.getString("dayNumber") ?: "0"
+            val homeViewModel = hiltViewModel<HomeViewModel>()
+            val dayViewModel = hiltViewModel<DayViewModel>()
+
+            dayViewModel.bindHomeViewModel(homeViewModel)
+
             DayScreen(
                 navController = navController,
-                day = day
+                dayNumber = dayNumber
             )
         }
     }

@@ -27,12 +27,17 @@ import com.example.a75hard.components.WaterTracker
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DayScreen(navController: NavHostController, day: String, viewModel: DayViewModel = hiltViewModel()) {
-    // Mark day as complete if all checkboxes checked, water goal reached & photo uploaded
+fun DayScreen(
+    navController: NavHostController,
+    dayNumber: String,
+    homeViewModel: HomeViewModel = hiltViewModel()
+) {
+    val dayViewModel: DayViewModel = hiltViewModel()
+    dayViewModel.bindHomeViewModel(homeViewModel)
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Day $day") },
+                title = { Text(text = "Day $dayNumber") },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
@@ -62,14 +67,14 @@ fun DayScreen(navController: NavHostController, day: String, viewModel: DayViewM
 
             Checkboxes(
                 items = checkboxList,
-                dayNumber = day
+                dayNumber = dayNumber
             )
 
-            WaterTracker(dayNumber = day)
+            WaterTracker(dayNumber = dayNumber)
 
-            ProgressPhoto(dayNumber = day)
+            ProgressPhoto(dayNumber = dayNumber)
 
-            Notes(dayNumber = day)
+            Notes(dayNumber = dayNumber)
 
             // Possibly also add info icons
 
