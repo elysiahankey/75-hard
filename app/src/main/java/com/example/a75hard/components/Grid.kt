@@ -14,15 +14,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.a75hard.ui.theme.onPrimaryContainerLight
+import com.example.a75hard.ui.theme.inversePrimaryLight
 
 @Composable
 fun Grid(modifier: Modifier = Modifier, onClick: (Int) -> Unit) {
     val numbers = (1..75).toList()
+
+    // Change backgroiund colour if day is complete
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(5),
@@ -33,9 +36,10 @@ fun Grid(modifier: Modifier = Modifier, onClick: (Int) -> Unit) {
             Box(
                 modifier = Modifier
                     .size(64.dp)
+                    .padding(4.dp)
                     .border(
                         width = 1.dp,
-                        brush = Brush.linearGradient(colors = listOf(Color.Red, Color.Blue)),
+                        brush = Brush.linearGradient(colors = listOf(onPrimaryContainerLight, inversePrimaryLight)),
                         shape = RectangleShape
                     )
                     .clickable { onClick(number) },

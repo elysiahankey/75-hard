@@ -16,10 +16,16 @@
     <string name="day_screen_diet_header">Diet followed?</string>
     <string name="day_screen_outside_workout">Outside workout completed?</string>
     <string name="day_screen_second_workout">Second workout completed?</string>
-    <string name="day_screen_water_drank">Water drank:</string>
-    <string name="day_screen_pages_read">Pages read:</string>
-    <string name="day_screen_progress_photo">Progress photo</string>
+    <string name="day_screen_pages_read">10 pages read</string>
+    <string name="day_screen_water_drank_title">Water drank</string>
+    <string name="day_screen_progress_photo_title">Progress photo</string>
+    <string name="day_screen_notes_title">Notes</string>
 
     <string name="water_tracker_input_label">Add water</string>
     <string name="water_tracker_button_label">Add</string>
+    <string name="water_tracker_reset_button_label">Reset water intake</string>
+
+    <string name="progress_photo_button_label">Upload a photo</string>
+    <string name="progress_photo_button_upload_another">Upload a different photo</string>
+    <string name="progress_photo_delete_photo">Delete photo</string>
 </resources>

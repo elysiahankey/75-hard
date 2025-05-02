@@ -1,30 +1,34 @@
 package com.example.a75hard
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.a75hard.components.Checkboxes
+import com.example.a75hard.components.Notes
+import com.example.a75hard.components.ProgressPhoto
 import com.example.a75hard.components.WaterTracker
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DayScreen(navController: NavHostController, day: String) {
+fun DayScreen(navController: NavHostController, day: String, viewModel: DayViewModel = hiltViewModel()) {
+    // Mark day as complete if all checkboxes checked, water goal reached & photo uploaded
     Scaffold(
         topBar = {
             TopAppBar(
@@ -38,67 +42,41 @@ fun DayScreen(navController: NavHostController, day: String) {
                     }
                 }
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.surface
     ) { innerPadding ->
+        val scrollState = rememberScrollState()
+
         Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier.fillMaxSize()
+                .padding(innerPadding)
+                .verticalScroll(scrollState),
         ) {
-            Spacer(modifier = Modifier.size(100.dp))
 
-            Text(
-                text = stringResource(R.string.day_screen_diet_header)
-            )
-            // 1. Follow a diet
-            // Checkbox for diet followed
-
-            Spacer(modifier = Modifier.size(40.dp))
-
-            Text(
-                text = stringResource(R.string.day_screen_outside_workout)
+            val checkboxList: List<Int> = listOf(
+                R.string.day_screen_diet_header,
+                R.string.day_screen_outside_workout,
+                R.string.day_screen_second_workout,
+                R.string.day_screen_pages_read
             )
 
-            Spacer(modifier = Modifier.size(40.dp))
-
-            Text(
-                text = stringResource(R.string.day_screen_second_workout)
+            Checkboxes(
+                items = checkboxList,
+                dayNumber = day
             )
-            // 2. Complete 2 45 minute workouts, 1 must be outside
-            // 2 checkboxes for workouts?
 
-            Spacer(modifier = Modifier.size(40.dp))
-
-            Text(
-                text = stringResource(R.string.day_screen_water_drank)
-            )
             WaterTracker(dayNumber = day)
-            // 3. Drink 4.5l of water
-            //Input field to add amount of water drank
-            //Progress bar x/4.5l
 
-            Spacer(modifier = Modifier.size(40.dp))
+            ProgressPhoto(dayNumber = day)
 
-            Text(
-                text = stringResource(R.string.day_screen_pages_read)
-            )
-            // 4. Read 10 pages of a book
-            //Same as for water maybe?
-            //Or maybe just a checkbox for this too
+            Notes(dayNumber = day)
 
-            Spacer(modifier = Modifier.size(40.dp))
-
-            Text(
-                text = stringResource(R.string.day_screen_progress_photo)
-            )
-            // 5. Take a progress photo
-            //Button to upload photo
-            //Display photo once uploaded
-            //Delete/Replace photo option
-
-            // Notes section
-            // Maybe a checkbox to mark day as complete, or maybe this should be done automatically once all checkboxes ticked,
-            // progress bar complete, and photo uploaded
             // Possibly also add info icons
+
+            // Add a weight option - maybe add a starting weight field to a settings screen or something
+            // An emoji option in the top bar? that also displays in the grid?
+
+            // Step trackers from Google Health
 
         }
     }
