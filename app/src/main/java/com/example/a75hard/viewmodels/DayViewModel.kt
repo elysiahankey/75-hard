@@ -6,8 +6,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.a75hard.R
 import com.example.a75hard.helpers.CheckboxHelper
+import com.example.a75hard.helpers.NotesHelper
 import com.example.a75hard.helpers.ProgressPhotoHelper
 import com.example.a75hard.helpers.WaterHelper
+import com.example.a75hard.helpers.WeightHelper
 import com.example.a75hard.viewmodels.HomeViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -126,6 +128,8 @@ class DayViewModel @Inject constructor(
         viewModelScope.launch {
             ProgressPhotoHelper.deletePhoto(getApplication(), dayNumber)
             CheckboxHelper.resetAllCheckboxes(getApplication(), dayNumber, checkboxList)
+            WeightHelper.resetWeight(getApplication(), dayNumber)
+            NotesHelper.saveNotesState(getApplication(), dayNumber, "")
         }
     }
 }

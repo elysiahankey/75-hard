@@ -41,6 +41,7 @@ import com.example.a75hard.components.Checkboxes
 import com.example.a75hard.components.Notes
 import com.example.a75hard.components.ProgressPhoto
 import com.example.a75hard.components.WaterTracker
+import com.example.a75hard.components.WeightTracker
 import com.example.a75hard.viewmodels.DayViewModel
 import com.example.a75hard.viewmodels.HomeViewModel
 
@@ -112,9 +113,19 @@ fun DayScreen(
                         dayNumber = dayNumber
                     )
 
+                    HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
+
                     WaterTracker(dayNumber = dayNumber)
 
+                    HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
+
                     ProgressPhoto(dayNumber = dayNumber)
+
+                    HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
+
+                    WeightTracker(dayNumber = dayNumber)
+
+                    HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
 
                     Notes(dayNumber = dayNumber)
 

@@ -31,26 +31,22 @@ class HomeViewModel @Inject constructor(
 
     fun markDayComplete(day: String) {
         val current = _completedDays.value
-        Log.d("HomeViewModel", "Marking $day as COMPLETE. Current set: $current")
 
         val updated = current + day
         _completedDays.value = updated
         viewModelScope.launch {
             dataStoreManager.saveCompletedDays(updated)
-            Log.d("HomeViewModel", "Day $day marked complete. Updated set: $updated")
         }
     }
 
     fun markDayIncomplete(day: String) {
         val current = _completedDays.value
-        Log.d("HomeViewModel", "Marking $day as INCOMPLETE. Current set: $current")
 
         if (day in current) {
             val updated = current - day
             _completedDays.value = updated
             viewModelScope.launch {
                 dataStoreManager.saveCompletedDays(updated)
-                Log.d("HomeViewModel", "Day $day marked incomplete. Updated set: $updated")
             }
         } else {
             Log.d("HomeViewModel", "Day $day not found in completed days.")

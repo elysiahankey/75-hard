@@ -18,6 +18,7 @@
     <string name="day_screen_pages_read">10 pages read</string>
     <string name="day_screen_water_drank_title">Water drank</string>
     <string name="day_screen_progress_photo_title">Progress photo</string>
+    <string name="day_screen_weight_tracker_title">Weight Tracker</string>
     <string name="day_screen_notes_title">Notes</string>
     <string name="day_screen_reset_day_button">Reset day</string>
 
@@ -28,6 +29,8 @@
     <string name="progress_photo_button_label">Upload a photo</string>
     <string name="progress_photo_button_upload_another">Upload a different photo</string>
     <string name="progress_photo_delete_photo">Delete photo</string>
+
+    <string name="weight_tracker_weight_field">Todays weight</string>
 
     <string name="settings_title">Settings</string>
 

@@ -97,7 +97,7 @@ fun WaterTracker(dayNumber: String, viewModel: DayViewModel = hiltViewModel()) {
                             ),
                             trailingIcon = {
                                 Text(
-                                    text = "ml", // Replace this with your desired text
+                                    text = "ml",
                                     style = MaterialTheme.typography.bodyLarge
                                 )
                             },

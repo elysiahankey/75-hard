@@ -103,7 +103,7 @@ fun SettingsScreen(
                 ) {
                     SettingsButton(
                         onClick = {},
-                        label = ""/*stringResource(R.string.settings_reset_all_button)*/
+                        label = TODO(/*stringResource(R.string.settings_reset_all_button)*/)
                     )
                     HorizontalDivider()
                     SettingsButton(
@@ -122,8 +122,8 @@ fun SettingsScreen(
                             text = { Text(stringResource(R.string.reset_app_dialog_text)) },
                             confirmButton = {
                                 TextButton(onClick = {
-//                                    homeViewModel.clearCompletedDays()  // Call your reset logic
-                                    showResetDialog = false  // Close dialog
+                                    TODO(/*homeViewModel.clearCompletedDays()*/)  // Call your reset logic
+                                    showResetDialog = false
                                 }) {
                                     Text(stringResource(R.string.reset_app_dialog_confirm))
                                 }
