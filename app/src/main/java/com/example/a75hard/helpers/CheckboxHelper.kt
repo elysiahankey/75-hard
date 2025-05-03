@@ -24,5 +24,14 @@ object CheckboxHelper {
             prefs[checkboxKey] ?: false // Default to false if not found
         }
     }
+
+    suspend fun resetAllCheckboxes(context: Context, dayNumber: String, items: List<Int>) {
+        context.dataStore.edit { prefs ->
+            for (item in items) {
+                val key = booleanPreferencesKey(getCheckboxKey(dayNumber, item))
+                prefs[key] = false
+            }
+        }
+    }
 }
 

@@ -1,17 +1,16 @@
 <resources>
     <string name="app_name">75 Hard</string>
 
-    <string name="home_screen_title">75 Hard Challenge</string>
+    <string name="home_title">75 Hard Challenge</string>
 
-    <string name="day_title">Day</string>
-
-    <string name="challenge_rules_header">Challenge Rules</string>
-
+    <string name="challenge_rules_title">Challenge Rules</string>
     <string name="rule_1">Follow a diet</string>
     <string name="rule_2">Complete two 45 minute workouts (one must be outside!)</string>
     <string name="rule_3">Drink 4.5l of water</string>
     <string name="rule_4">Read 10 pages of a book</string>
     <string name="rule_5">Take a progress photo</string>
+
+    <string name="day_title">Day</string>
 
     <string name="day_screen_diet_header">Diet followed?</string>
     <string name="day_screen_outside_workout">Outside workout completed?</string>
@@ -20,6 +19,7 @@
     <string name="day_screen_water_drank_title">Water drank</string>
     <string name="day_screen_progress_photo_title">Progress photo</string>
     <string name="day_screen_notes_title">Notes</string>
+    <string name="day_screen_reset_day_button">Reset day</string>
 
     <string name="water_tracker_input_label">Add water</string>
     <string name="water_tracker_button_label">Add</string>
@@ -28,4 +28,13 @@
     <string name="progress_photo_button_label">Upload a photo</string>
     <string name="progress_photo_button_upload_another">Upload a different photo</string>
     <string name="progress_photo_delete_photo">Delete photo</string>
+
+    <string name="settings_title">Settings</string>
+
+    <string name="settings_reset_all_button">Reset all</string>
+    <string name="reset_app_dialog_title">Reset app?</string>
+    <string name="reset_app_dialog_text">Are you sure you want to reset all days? This will delete all progress and photos.</string>
+    <string name="reset_app_dialog_confirm">Reset</string>
+    <string name="reset_app_dialog_cancel">Cancel</string>
+    <string name="settings_weight_tracker_button">Weight tracker</string>
 </resources>

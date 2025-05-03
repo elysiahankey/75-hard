@@ -19,42 +19,33 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.a75hard.DayViewModel
+import com.example.a75hard.viewmodels.DayViewModel
 import com.example.a75hard.R
-import com.example.a75hard.helpers.WaterHelper
-import kotlinx.coroutines.launch
 
 @Composable
 fun WaterTracker(dayNumber: String, viewModel: DayViewModel = hiltViewModel()) {
-    val goal = 4500f
-
-    // Observe the current water progress from the ViewModel
+    val goal = DayViewModel.WATER_GOAL_ML
     val currentProgress by viewModel.waterDrank.collectAsState()
-
-    // Track user input for water input
     var input by remember { mutableStateOf("") }
 
-    // Check if progress is initialized
-    currentProgress?.let { progress ->
+    currentProgress.let { progress ->
         Column(
             modifier = Modifier
                 .padding(16.dp)
@@ -98,8 +89,7 @@ fun WaterTracker(dayNumber: String, viewModel: DayViewModel = hiltViewModel()) {
                                 onDone = {
                                     val inputValue = input.toFloatOrNull()
                                     if (inputValue != null) {
-                                        val updated =
-                                            (progress * goal + inputValue).coerceAtMost(goal)
+                                        val updated = (currentProgress + inputValue).coerceAtMost(goal.toFloat())
                                         viewModel.addWater(updated.toInt())
                                         input = ""
                                     }
@@ -121,7 +111,7 @@ fun WaterTracker(dayNumber: String, viewModel: DayViewModel = hiltViewModel()) {
                             onClick = {
                                 val inputValue = input.toFloatOrNull()
                                 if (inputValue != null) {
-                                    val updated = (progress * goal + inputValue).coerceAtMost(goal)
+                                    val updated = (currentProgress + inputValue).coerceAtMost(goal.toFloat())
                                     viewModel.addWater(updated.toInt())
                                     input = ""
                                 }
@@ -137,15 +127,15 @@ fun WaterTracker(dayNumber: String, viewModel: DayViewModel = hiltViewModel()) {
                 Spacer(modifier = Modifier.size(20.dp))
 
                 LinearProgressIndicator(
-                    progress = { progress / goal },
+                    progress = { currentProgress.toFloat() / goal },
                     modifier = Modifier.fillMaxWidth(),
                 )
 
                 Spacer(modifier = Modifier.size(20.dp))
 
-                Text(text = "${(progress * 100 / goal).toInt()}% of daily goal")
+                Text(text = "${(progress * 100 / goal).toInt()}% of daily goal of ${goal}ml")
 
-                Button(
+                TextButton(
                     onClick = {
                         viewModel.resetWater()
                     },

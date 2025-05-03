@@ -1,4 +1,4 @@
-package com.example.a75hard
+package com.example.a75hard.viewmodels
 
 import android.app.Application
 import android.util.Log
@@ -42,7 +42,6 @@ class HomeViewModel @Inject constructor(
     }
 
     fun markDayIncomplete(day: String) {
-        // Log the actual set of completed days
         val current = _completedDays.value
         Log.d("HomeViewModel", "Marking $day as INCOMPLETE. Current set: $current")
 
@@ -57,5 +56,4 @@ class HomeViewModel @Inject constructor(
             Log.d("HomeViewModel", "Day $day not found in completed days.")
         }
     }
-
 }

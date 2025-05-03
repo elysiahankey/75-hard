@@ -28,4 +28,10 @@ class DataStoreManager(private val context: Context) {
             preferences[DataStoreKeys.COMPLETED_DAYS] = days
         }
     }
+
+    suspend fun clearCompletedDays() {
+        context.dataStore.edit { preferences ->
+            preferences.remove(DataStoreKeys.COMPLETED_DAYS)
+        }
+    }
 }

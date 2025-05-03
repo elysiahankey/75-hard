@@ -21,7 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.a75hard.DayViewModel
+import com.example.a75hard.viewmodels.DayViewModel
 import com.example.a75hard.R
 import com.example.a75hard.helpers.ProgressPhotoHelper
 import kotlinx.coroutines.Dispatchers
@@ -100,11 +100,7 @@ fun ProgressPhoto(dayNumber: String, viewModel: DayViewModel = hiltViewModel()) 
                 Button(
                     onClick = {
                         coroutineScope.launch {
-                            val file = File(savedPath)
-                            if (file.exists()) file.delete()
-
-                            ProgressPhotoHelper.savePhotoState(context, dayNumber, "")
-                            viewModel.setPhotoUploaded(false)
+                            ProgressPhotoHelper.deletePhoto(context, dayNumber)
                         }
                     },
                     shape = RoundedCornerShape(12.dp),

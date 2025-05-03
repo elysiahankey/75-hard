@@ -47,19 +47,30 @@ fun Grid(
                     .padding(4.dp)
                     .border(
                         width = 1.dp,
-                        brush = Brush.linearGradient(colors = listOf(onPrimaryContainerLight, inversePrimaryLight)),
+                        brush = Brush.linearGradient(
+                            colors = listOf(
+                                MaterialTheme.colorScheme.onPrimaryContainer,
+                                MaterialTheme.colorScheme.inversePrimary)
+                        ),
                         shape = RectangleShape
                     )
                     .clickable { onClick(number) }
                     .background(
                         color = if (isComplete)
-                            onPrimaryContainerLight
+                            MaterialTheme.colorScheme.onPrimaryContainer
                         else
                             Color.Transparent
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                Text(text = number.toString(), fontSize = 20.sp)
+                Text(
+                    text = number.toString(),
+                    fontSize = 20.sp,
+                    color = if (isComplete)
+                        MaterialTheme.colorScheme.onPrimary
+                    else
+                        MaterialTheme.colorScheme.primary
+                )
             }
         }
     }

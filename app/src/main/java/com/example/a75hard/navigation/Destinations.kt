@@ -33,6 +33,17 @@ object Rules : Destination {
     }
 }
 
+object Settings : Destination {
+    override val name = "Settings"
+    override val route = "settings"
+    override val icon = @androidx.compose.runtime.Composable {
+        Icon(
+            painterResource(R.drawable.ic_search),
+            contentDescription = null
+        )
+    }
+}
+
 object DayScreen : Destination {
     override val name = "Day Screen"
     override val route = "dayscreen/{day}"
@@ -47,4 +58,16 @@ object DayScreen : Destination {
     fun createRoute(day: String): String = "dayscreen/$day"
 }
 
-val topLevelRoutes = listOf(Home, Rules)
+object WeightTracker: Destination {
+    override val name = "Weight Tracker"
+    override val route = "weighttracker"
+
+    override val icon: @Composable () -> Unit = {
+        Icon(
+            painter = painterResource(R.drawable.ic_search),
+            contentDescription = null
+        )
+    }
+}
+
+val topLevelRoutes = listOf(Home, Rules, Settings)
