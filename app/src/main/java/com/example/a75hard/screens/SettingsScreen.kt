@@ -102,11 +102,6 @@ fun SettingsScreen(
                     verticalArrangement = Arrangement.spacedBy(0.dp)
                 ) {
                     SettingsButton(
-                        onClick = {},
-                        label = TODO(/*stringResource(R.string.settings_reset_all_button)*/)
-                    )
-                    HorizontalDivider()
-                    SettingsButton(
                         onClick = { onClickWeightTracker() },
                         label = stringResource(R.string.settings_weight_tracker_button)
                     )

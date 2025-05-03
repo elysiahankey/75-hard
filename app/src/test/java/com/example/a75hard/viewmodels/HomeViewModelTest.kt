@@ -1,17 +1,11 @@
 package com.example.a75hard.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.SavedStateHandle
-import com.example.a75hard.helpers.DataStoreManager
 import io.mockk.mockk
-import io.mockk.verify
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
 import org.junit.Before
 
 class HomeViewModelTest {
@@ -20,7 +14,6 @@ class HomeViewModelTest {
 
     @Before
     fun setUp() {
-        // Create the ViewModel with mocked dependencies
         viewModel = HomeViewModel(application)
     }
 
