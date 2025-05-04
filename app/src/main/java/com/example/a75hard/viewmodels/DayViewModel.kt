@@ -99,7 +99,7 @@ class DayViewModel @Inject constructor(
     private fun updateWaterProgress(amount: Int) {
         viewModelScope.launch {
             val currentDrank = (_waterProgress.value * WATER_GOAL_ML).toInt()
-            val updated = (currentDrank + amount).coerceAtMost(WATER_GOAL_ML)
+            val updated = (currentDrank + amount)
             val newProgress = updated / WATER_GOAL_ML.toFloat()
             _waterProgress.value = newProgress
             saveWaterProgress(newProgress)

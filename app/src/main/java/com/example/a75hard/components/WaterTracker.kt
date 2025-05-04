@@ -85,16 +85,6 @@ fun WaterTracker(dayNumber: String, viewModel: DayViewModel = hiltViewModel()) {
                                 keyboardType = KeyboardType.Number,
                                 imeAction = ImeAction.Done
                             ),
-                            keyboardActions = KeyboardActions(
-                                onDone = {
-                                    val inputValue = input.toFloatOrNull()
-                                    if (inputValue != null) {
-                                        val updated = (currentProgress + inputValue).coerceAtMost(goal.toFloat())
-                                        viewModel.addWater(updated.toInt())
-                                        input = ""
-                                    }
-                                }
-                            ),
                             trailingIcon = {
                                 Text(
                                     text = "ml",
@@ -111,8 +101,7 @@ fun WaterTracker(dayNumber: String, viewModel: DayViewModel = hiltViewModel()) {
                             onClick = {
                                 val inputValue = input.toFloatOrNull()
                                 if (inputValue != null) {
-                                    val updated = (currentProgress + inputValue).coerceAtMost(goal.toFloat())
-                                    viewModel.addWater(updated.toInt())
+                                    viewModel.addWater(inputValue.toInt())
                                     input = ""
                                 }
                             },
@@ -129,11 +118,12 @@ fun WaterTracker(dayNumber: String, viewModel: DayViewModel = hiltViewModel()) {
                 LinearProgressIndicator(
                     progress = { currentProgress.toFloat() / goal },
                     modifier = Modifier.fillMaxWidth(),
+                    drawStopIndicator = {}
                 )
 
                 Spacer(modifier = Modifier.size(20.dp))
 
-                Text(text = "${(progress * 100 / goal).toInt()}% of daily goal of ${goal}ml")
+                Text(text = "${currentProgress}ml / ${goal}ml")
 
                 TextButton(
                     onClick = {

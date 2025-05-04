@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.rememberNavController
 import com.example.a75hard.navigation.NavHost
@@ -15,6 +14,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        cacheDir.listFiles { file -> file.extension == "jar" }
+            ?.forEach { it.setReadOnly() }
         enableEdgeToEdge()
         setContent {
             _75HardTheme {
@@ -28,9 +29,6 @@ class MainActivity : ComponentActivity() {
 fun _75HardApp() {
     _75HardTheme {
         var navController = rememberNavController()
-        Scaffold(
-        ) { innerPadding ->
             NavHost(navController)
-        }
     }
 }

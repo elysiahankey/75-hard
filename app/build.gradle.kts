@@ -39,8 +39,22 @@ android {
     buildFeatures {
         compose = true
     }
+
+    packaging {
+        resources {
+            excludes += "/META-INF/LICENSE.md"
+            excludes += "/META-INF/LICENSE-notice.md"
+            excludes += "/META-INF/NOTICE.md"
+        }
+    }
 }
 
+configurations.all {
+    resolutionStrategy {
+        force("junit:junit:4.13.2")   // Ensure JUnit 4 is used
+        exclude(group = "org.junit.jupiter")   // Exclude JUnit Jupiter
+    }
+}
 
 dependencies {
     debugImplementation(libs.androidx.ui.tooling)
@@ -68,9 +82,10 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockk)
+    testImplementation(libs.androidx.core)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.mockk.android)
 }
