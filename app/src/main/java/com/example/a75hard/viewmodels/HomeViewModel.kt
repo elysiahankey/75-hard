@@ -21,6 +21,9 @@ class HomeViewModel @Inject constructor(
     private val _completedDays = MutableStateFlow<Set<String>>(emptySet())
     val completedDays: StateFlow<Set<String>> = _completedDays
 
+    private val _recentlyCompletedDay = MutableStateFlow<String?>(null)
+    val recentlyCompletedDay: StateFlow<String?> = _recentlyCompletedDay
+
     init {
         viewModelScope.launch {
             dataStoreManager.completedDays.collect {
@@ -31,8 +34,9 @@ class HomeViewModel @Inject constructor(
 
     fun markDayComplete(day: String) {
         val current = _completedDays.value
-
         val updated = current + day
+        _recentlyCompletedDay.value = day
+
         _completedDays.value = updated
         viewModelScope.launch {
             dataStoreManager.saveCompletedDays(updated)
@@ -51,5 +55,9 @@ class HomeViewModel @Inject constructor(
         } else {
             Log.d("HomeViewModel", "Day $day not found in completed days.")
         }
+    }
+
+    fun clearRecentlyCompletedDay() {
+        _recentlyCompletedDay.value = null
     }
 }

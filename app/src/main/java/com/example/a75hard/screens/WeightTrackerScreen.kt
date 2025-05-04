@@ -94,11 +94,11 @@ fun WeightTrackerScreen(
                     value = getAllWeights(context)
                 }
 
-                val chartPoints = weightEntries.mapNotNull { (day, weightStr) ->
-                    weightStr.toFloatOrNull()?.let { weight ->
-                        day to weight
-                    }
-                }
+//                val chartPoints = weightEntries.mapNotNull { (day, weightStr) ->
+//                    weightStr.toFloatOrNull()?.let { weight ->
+//                        day to weight
+//                    }
+//                }
 
                 Column(modifier = Modifier.padding(16.dp)) {
                     Row {

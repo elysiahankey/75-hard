@@ -1,5 +1,6 @@
 package com.example.a75hard.screens
 
+import com.airbnb.lottie.compose.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -21,12 +22,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -44,6 +48,7 @@ import com.example.a75hard.components.WaterTracker
 import com.example.a75hard.components.WeightTracker
 import com.example.a75hard.viewmodels.DayViewModel
 import com.example.a75hard.viewmodels.HomeViewModel
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,6 +61,18 @@ fun DayScreen(
 
     LaunchedEffect(Unit) {
         dayViewModel.bindHomeViewModel(homeViewModel)
+    }
+
+    val recentlyCompletedDay by homeViewModel.recentlyCompletedDay.collectAsState()
+    var showSuccessAnimation by remember { mutableStateOf(false) }
+
+    LaunchedEffect(recentlyCompletedDay) {
+        if (recentlyCompletedDay == dayNumber) {
+            showSuccessAnimation = true
+            delay(3700)
+            showSuccessAnimation = false
+            homeViewModel.clearRecentlyCompletedDay() // Reset trigger
+        }
     }
 
     Scaffold(
@@ -95,6 +112,22 @@ fun DayScreen(
                 contentScale = ContentScale.Crop
             )
 
+            if (showSuccessAnimation) {
+                val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.success_lottie))
+                val progress by animateLottieCompositionAsState(
+                    composition = composition,
+                    iterations = 5
+                )
+
+                LottieAnimation(
+                    composition = composition,
+                    progress = { progress },
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .zIndex(1f)
+                )
+            }
+
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -107,7 +140,6 @@ fun DayScreen(
                         .clip(RoundedCornerShape(16.dp))
                         .background(MaterialTheme.colorScheme.onPrimary),
                 ) {
-
                     Checkboxes(
                         items = DayViewModel.Companion.checkboxList,
                         dayNumber = dayNumber
