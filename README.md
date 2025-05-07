@@ -4,12 +4,11 @@ Features tracking for the typical challenge rules, as well as weight tracking an
 
 Home Screen:
 
-![Screenshot 2025-05-03 173402](https://github.com/user-attachments/assets/4fd492c3-3390-46df-9717-ffc3def85d5f)
-
-Day Screen:
-
-![Screenshot 2025-05-03 173426](https://github.com/user-attachments/assets/27985c6d-9828-4aba-9768-a9190557b292)
-![Screenshot 2025-05-03 173443](https://github.com/user-attachments/assets/acf182df-bc0b-4add-ad14-79f96c919bad)
+![Screenshot 2025-05-07 175707](https://github.com/user-attachments/assets/08723c14-3047-4450-9780-b0c796db7565)
+![Screenshot 2025-05-07 175738](https://github.com/user-attachments/assets/f78ec7e1-2c6d-4780-9537-6c9df0932e34)
+![Screenshot 2025-05-07 180219](https://github.com/user-attachments/assets/8f00e21e-013d-474c-a068-f1c3d3283afe)
+![Screenshot 2025-05-07 175819](https://github.com/user-attachments/assets/c39ca081-0b75-4a4d-a216-f9be92123838)
+![Screenshot 2025-05-07 175723](https://github.com/user-attachments/assets/260d1d84-3de9-4a27-938a-ff9bd9112379)
 
 ## How It's Made:
 
