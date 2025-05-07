@@ -1,11 +1,15 @@
 package com.example.a75hard.screens
 
+import androidx.compose.animation.core.EaseInOutCubic
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,6 +29,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -33,6 +39,11 @@ import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import com.example.a75hard.R
 import com.example.a75hard.helpers.WaterHelper.getAllWater
+import ir.ehsannarmani.compose_charts.LineChart
+import ir.ehsannarmani.compose_charts.models.AnimationMode
+import ir.ehsannarmani.compose_charts.models.DrawStyle
+import ir.ehsannarmani.compose_charts.models.LabelHelperProperties
+import ir.ehsannarmani.compose_charts.models.Line
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -87,6 +98,47 @@ fun WaterTrackerScreen(
 
                 val waterEntries by produceState(initialValue = emptyList<Pair<Int, Float>>(), context) {
                     value = getAllWater(context)
+                }
+
+                val waterStrings = waterEntries.map { it.second.toDouble() }
+                val minWater = (waterStrings.minOrNull()?.minus(100)) ?: 0.0
+                val maxWater = (waterStrings.maxOrNull()?.plus(100)) ?: 0.0
+
+                Box(
+                    modifier = Modifier
+                        .padding(20.dp)
+                        .background(
+                            color = MaterialTheme.colorScheme.secondary,
+                            shape = RoundedCornerShape(12.dp)
+                        )
+                ) {
+                    LineChart(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(300.dp)
+                            .padding(20.dp),
+                        data =
+                            listOf(
+                                Line(
+                                    label = "",
+                                    values = waterStrings,
+                                    color = SolidColor(MaterialTheme.colorScheme.onPrimary),
+                                    firstGradientFillColor = MaterialTheme.colorScheme.onSecondary.copy(alpha = .5f),
+                                    secondGradientFillColor = Color.Transparent,
+                                    strokeAnimationSpec = tween(2000, easing = EaseInOutCubic),
+                                    gradientAnimationDelay = 1000,
+                                    drawStyle = DrawStyle.Stroke(width = 2.dp),
+                                )
+                            ),
+                        animationMode = AnimationMode.Together(delayBuilder = {
+                            it * 500L
+                        }),
+                        minValue = minWater,
+                        maxValue = maxWater,
+                        labelHelperProperties = LabelHelperProperties(
+                            enabled = false,
+                        )
+                    )
                 }
 
                 Column(modifier = Modifier.padding(16.dp)) {
