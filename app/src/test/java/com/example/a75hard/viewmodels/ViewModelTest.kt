@@ -3,6 +3,7 @@ package com.example.a75hard.viewmodels
 import android.app.Application
 import androidx.lifecycle.SavedStateHandle
 import io.mockk.mockk
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.junit.Assert.assertEquals
@@ -11,17 +12,18 @@ import org.junit.Before
 import org.junit.Ignore
 import java.lang.Thread.sleep
 
-class DayViewModelTest {
-    fun dayViewModelTestInstance(): DayViewModel {
+class ViewModelTest {
+    private lateinit var viewModel: ViewModel
+    val application = mockk<Application>(relaxed = true)
+
+    @Before
+    fun setUp() {
         val savedStateHandle = SavedStateHandle(mapOf("dayNumber" to "1"))
-        val application = mockk<Application>(relaxed = true)
-        return DayViewModel(savedStateHandle, application)
+        viewModel = ViewModel(savedStateHandle, application)
     }
 
-    private val viewModel = dayViewModelTestInstance()
-
     @Test
-    fun dayViewModel_AddWater_IncreasesWaterDrank() = runTest {
+    fun viewModel_AddWater_IncreasesWaterDrank() = runTest {
         viewModel.addWater(1000)
         sleep(100)
 
@@ -29,7 +31,7 @@ class DayViewModelTest {
     }
 
     @Test
-    fun dayViewModel_AddMoreWater_IncreasesWaterDrankCorrectly() = runTest {
+    fun viewModel_AddMoreWater_IncreasesWaterDrankCorrectly() = runTest {
         viewModel.addWater(1000)
         sleep(100)
 
@@ -41,7 +43,7 @@ class DayViewModelTest {
 
     @Ignore("This fails when run in a suite :(")
     @Test
-    fun dayViewModel_ResetWater_SetsWaterDrankTo0() = runTest {
+    fun viewModel_ResetWater_SetsWaterDrankTo0() = runTest {
         viewModel.addWater(1500)
         sleep(100)
 
@@ -54,16 +56,33 @@ class DayViewModelTest {
     }
 
     @Test
-    fun dayViewModel_ResetDay_ResetsAllValues() = runTest {
+    fun viewModel_ResetDay_ResetsAllValues() = runTest {
         viewModel.addWater(1500)
         viewModel.setChecked(true)
         viewModel.setPhotoUploaded(true)
         sleep(100)
 
-        viewModel.resetDay()
+        viewModel.resetDay("2")
         sleep(100)
 
         assertEquals(0, viewModel.waterDrank.value)
         assertFalse(viewModel.isDayComplete.value)
+    }
+
+    @Test
+    fun viewModel_MarkDayAsComplete_AddsDayToCompletedDays() = runTest {
+        val day = "1"
+        viewModel.markDayComplete(day)
+
+        assertEquals(setOf(day), viewModel.completedDays.first())
+    }
+
+    @Test
+    fun viewModel_MarkDayAsIncomplete_RemovesDayFromCompletedDays() = runTest {
+        val day = "1"
+        viewModel.markDayComplete(day)
+        viewModel.markDayIncomplete(day)
+
+        assertEquals(emptySet<String>(), viewModel.completedDays.first())
     }
 }

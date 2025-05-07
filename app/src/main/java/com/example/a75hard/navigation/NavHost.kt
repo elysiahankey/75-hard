@@ -8,11 +8,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.a75hard.screens.ChallengeRulesScreen
 import com.example.a75hard.screens.DayScreen
-import com.example.a75hard.viewmodels.DayViewModel
 import com.example.a75hard.screens.HomeScreen
-import com.example.a75hard.viewmodels.HomeViewModel
 import com.example.a75hard.screens.SettingsScreen
 import com.example.a75hard.screens.WeightTrackerScreen
+import com.example.a75hard.viewmodels.ViewModel
 
 fun NavHostController.navigateTo(route: String) =
     this.navigate(route) {
@@ -51,10 +50,7 @@ fun NavHost(navController: NavHostController) {
         }
         composable(route = "dayscreen/{dayNumber}") { backStackEntry ->
             val dayNumber = backStackEntry.arguments?.getString("dayNumber") ?: "0"
-            val homeViewModel = hiltViewModel<HomeViewModel>()
-            val dayViewModel = hiltViewModel<DayViewModel>()
-
-            dayViewModel.bindHomeViewModel(homeViewModel)
+            val viewModel = hiltViewModel<ViewModel>()
 
             DayScreen(
                 navController = navController,

@@ -33,15 +33,13 @@ import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.a75hard.R
-import com.example.a75hard.helpers.WeightHelper
 import com.example.a75hard.helpers.WeightHelper.getAllWeights
-import com.example.a75hard.viewmodels.HomeViewModel
+import com.example.a75hard.viewmodels.ViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeightTrackerScreen(
-    navController: NavHostController,
-    homeViewModel: HomeViewModel = hiltViewModel()
+    navController: NavHostController
 ) {
 
     val scrollState = rememberScrollState()
@@ -93,12 +91,6 @@ fun WeightTrackerScreen(
                 val weightEntries by produceState(initialValue = emptyList<Pair<Int, String>>(), context) {
                     value = getAllWeights(context)
                 }
-
-//                val chartPoints = weightEntries.mapNotNull { (day, weightStr) ->
-//                    weightStr.toFloatOrNull()?.let { weight ->
-//                        day to weight
-//                    }
-//                }
 
                 Column(modifier = Modifier.padding(16.dp)) {
                     Row {

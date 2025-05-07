@@ -9,9 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -21,7 +19,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -34,14 +31,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.a75hard.R
 import com.example.a75hard.components.Grid
-import com.example.a75hard.viewmodels.HomeViewModel
 import com.example.a75hard.navigation.BottomNavBar
+import com.example.a75hard.viewmodels.ViewModel
 
 @Composable
 fun HomeScreen(
     navController: NavHostController,
     onClickDay: (String) -> Unit,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: ViewModel = hiltViewModel()
 ) {
     val completedDays by viewModel.completedDays.collectAsState()
 
@@ -86,7 +83,28 @@ fun HomeScreen(
                     )
                 }
 
-                Spacer(modifier = Modifier.size(40.dp))
+                Spacer(modifier = Modifier.size(20.dp))
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(0.8f)
+                        .padding(horizontal = 20.dp)
+                        .background(
+                            color = MaterialTheme.colorScheme.secondary,
+                            shape = RoundedCornerShape(12.dp)
+                        )
+                    ,
+                ) {
+                    Text(
+                        text = "${viewModel.currentDay}/75 days complete",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onSecondary,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+
+                Spacer(modifier = Modifier.size(20.dp))
 
                 Grid(
                     onClick = { dayNumber -> onClickDay(dayNumber.toString()) },

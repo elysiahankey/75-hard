@@ -3,11 +3,9 @@ package com.example.a75hard.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -22,15 +20,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.a75hard.viewmodels.DayViewModel
 import com.example.a75hard.R
 import com.example.a75hard.helpers.CheckboxHelper
 import com.example.a75hard.helpers.CheckboxHelper.getCheckboxState
-import com.example.a75hard.helpers.NotesHelper
+import com.example.a75hard.viewmodels.ViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun Checkboxes(items: List<Int>, dayNumber: String, viewModel: DayViewModel = hiltViewModel()) {
+fun Checkboxes(items: List<Int>, dayNumber: String, viewModel: ViewModel = hiltViewModel()) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 

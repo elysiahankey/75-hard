@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,7 +12,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -27,7 +25,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -41,13 +38,13 @@ import androidx.navigation.compose.rememberNavController
 import com.example.a75hard.R
 import com.example.a75hard.components.SettingsButton
 import com.example.a75hard.navigation.BottomNavBar
-import com.example.a75hard.viewmodels.HomeViewModel
+import com.example.a75hard.viewmodels.ViewModel
 
 @Composable
 fun SettingsScreen(
     navController: NavHostController,
     onClickWeightTracker: () -> Unit,
-    homeViewModel: HomeViewModel = hiltViewModel()
+    viewModel: ViewModel = hiltViewModel()
 ) {
     Scaffold(
         bottomBar = {
@@ -117,7 +114,7 @@ fun SettingsScreen(
                             text = { Text(stringResource(R.string.reset_app_dialog_text)) },
                             confirmButton = {
                                 TextButton(onClick = {
-                                    TODO(/*homeViewModel.clearCompletedDays()*/)  // Call your reset logic
+                                    viewModel.resetAllDays()
                                     showResetDialog = false
                                 }) {
                                     Text(stringResource(R.string.reset_app_dialog_confirm))
