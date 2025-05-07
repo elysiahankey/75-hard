@@ -32,7 +32,7 @@ object WeightHelper {
 
         for (day in 1..75) {
             var dayNumber = day.toString()
-            val key = stringPreferencesKey("weight_${dayNumber}") // Adjust if your getWeightKey is different
+            val key = stringPreferencesKey("weight_${dayNumber}")
             val weight = prefs[key]
             if (!weight.isNullOrBlank()) {
                 weightEntries.add(day to weight)

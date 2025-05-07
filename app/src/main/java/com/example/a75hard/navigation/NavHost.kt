@@ -10,6 +10,7 @@ import com.example.a75hard.screens.ChallengeRulesScreen
 import com.example.a75hard.screens.DayScreen
 import com.example.a75hard.screens.HomeScreen
 import com.example.a75hard.screens.SettingsScreen
+import com.example.a75hard.screens.WaterTrackerScreen
 import com.example.a75hard.screens.WeightTrackerScreen
 import com.example.a75hard.viewmodels.ViewModel
 
@@ -46,7 +47,11 @@ fun NavHost(navController: NavHostController) {
                 navController = navController,
                 onClickWeightTracker = {
                     navController.navigate(route = WeightTracker.route)
-                })
+                },
+                onClickWaterTracker = {
+                    navController.navigate(route = WaterTracker.route)
+                }
+            )
         }
         composable(route = "dayscreen/{dayNumber}") { backStackEntry ->
             val dayNumber = backStackEntry.arguments?.getString("dayNumber") ?: "0"
@@ -59,6 +64,9 @@ fun NavHost(navController: NavHostController) {
         }
         composable(route = WeightTracker.route) {
             WeightTrackerScreen(navController)
+        }
+        composable(route = WaterTracker.route) {
+            WaterTrackerScreen(navController)
         }
     }
 }

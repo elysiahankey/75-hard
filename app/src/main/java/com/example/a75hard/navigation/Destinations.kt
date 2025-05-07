@@ -70,4 +70,16 @@ object WeightTracker: Destination {
     }
 }
 
+object WaterTracker: Destination {
+    override val name = "Water Tracker"
+    override val route = "watertracker"
+
+    override val icon: @Composable () -> Unit = {
+        Icon(
+            painter = painterResource(R.drawable.ic_search),
+            contentDescription = null
+        )
+    }
+}
+
 val topLevelRoutes = listOf(Home, Rules, Settings)

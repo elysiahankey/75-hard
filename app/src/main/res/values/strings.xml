@@ -41,4 +41,5 @@
     <string name="reset_app_dialog_confirm">Reset</string>
     <string name="reset_app_dialog_cancel">Cancel</string>
     <string name="settings_weight_tracker_button">Weight tracker</string>
+    <string name="settings_water_tracker_button">Water tracker</string>
 </resources>

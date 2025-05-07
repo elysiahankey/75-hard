@@ -215,7 +215,7 @@ class ViewModel @Inject constructor(
     fun resetAllDays() {
         viewModelScope.launch {
             for (day in 1..75) {
-                resetDay(day.toString()) // Reset each day
+                resetDay(day.toString())
             }
             dataStoreManager.clearCompletedDays()
         }

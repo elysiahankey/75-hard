@@ -44,6 +44,7 @@ import com.example.a75hard.viewmodels.ViewModel
 fun SettingsScreen(
     navController: NavHostController,
     onClickWeightTracker: () -> Unit,
+    onClickWaterTracker: () -> Unit,
     viewModel: ViewModel = hiltViewModel()
 ) {
     Scaffold(
@@ -104,6 +105,11 @@ fun SettingsScreen(
                     )
                     HorizontalDivider()
                     SettingsButton(
+                        onClick = { onClickWaterTracker() },
+                        label = stringResource(R.string.settings_water_tracker_button)
+                    )
+                    HorizontalDivider()
+                    SettingsButton(
                         onClick = { showResetDialog = true },
                         label = stringResource(R.string.settings_reset_all_button)
                     )
@@ -139,6 +145,7 @@ fun SettingsScreenPreview() {
     var navController = rememberNavController()
     SettingsScreen(
         navController = navController,
-        onClickWeightTracker = {}
+        onClickWeightTracker = {},
+        onClickWaterTracker = {}
     )
 }
