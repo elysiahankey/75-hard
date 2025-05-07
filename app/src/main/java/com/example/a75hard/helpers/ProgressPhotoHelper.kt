@@ -1,12 +1,8 @@
 package com.example.a75hard.helpers
 
 import android.content.Context
-import androidx.compose.runtime.collectAsState
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.a75hard.viewmodels.DayViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first

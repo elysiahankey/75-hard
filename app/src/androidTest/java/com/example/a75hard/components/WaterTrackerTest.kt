@@ -3,17 +3,15 @@ package com.example.a75hard.components
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.a75hard.viewmodels.DayViewModel
+import com.example.a75hard.viewmodels.ViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Before
@@ -28,7 +26,7 @@ class WaterTrackerTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @MockK
-    lateinit var mockViewModel: DayViewModel
+    lateinit var mockViewModel: ViewModel
 
     @Before
     fun setup() {

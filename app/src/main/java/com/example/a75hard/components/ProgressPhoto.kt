@@ -7,9 +7,14 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -19,11 +24,12 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.a75hard.viewmodels.DayViewModel
 import com.example.a75hard.R
 import com.example.a75hard.helpers.ProgressPhotoHelper
+import com.example.a75hard.viewmodels.ViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -31,7 +37,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 @Composable
-fun ProgressPhoto(dayNumber: String, viewModel: DayViewModel = hiltViewModel()) {
+fun ProgressPhoto(dayNumber: String, viewModel: ViewModel = hiltViewModel()) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
@@ -39,6 +45,7 @@ fun ProgressPhoto(dayNumber: String, viewModel: DayViewModel = hiltViewModel()) 
         .collectAsState(initial = "")
 
     var bitmap by remember { mutableStateOf<Bitmap?>(null) }
+    var showPhoto by remember { mutableStateOf(false) }
 
     LaunchedEffect(savedPath) {
         bitmap = if (savedPath.isNotEmpty()) {
@@ -64,49 +71,65 @@ fun ProgressPhoto(dayNumber: String, viewModel: DayViewModel = hiltViewModel()) 
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        Text(
-            text = stringResource(R.string.day_screen_progress_photo_title),
-            style = MaterialTheme.typography.titleLarge
-        )
+        Row(
+            modifier = Modifier
+                .clickable { showPhoto = !showPhoto }
+                .fillMaxWidth()
+        ) {
+            Text(
+                text = stringResource(R.string.day_screen_progress_photo_title),
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.weight(1f)
+            )
+            Icon(
+                imageVector = if (showPhoto) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                contentDescription = "Tap to expand"
+            )
+        }
 
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            bitmap?.let {
-                Image(
-                    bitmap = it.asImageBitmap(),
-                    contentDescription = "Selected image",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
-                    contentScale = ContentScale.Fit
-                )
-            }
+        if (showPhoto) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-            Spacer(modifier = Modifier.height(16.dp))
+                bitmap?.let {
+                    Spacer(modifier = Modifier.height(20.dp))
 
-            Button(
-                onClick = { pickImageLauncher.launch("image/*") },
-                shape = RoundedCornerShape(12.dp),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = if (bitmap != null)
-                        stringResource(R.string.progress_photo_button_upload_another)
-                    else
-                        stringResource(R.string.progress_photo_button_label)
-                )
-            }
+                    Image(
+                        bitmap = it.asImageBitmap(),
+                        contentDescription = "Selected image",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                        contentScale = ContentScale.Fit
+                    )
+                }
 
-            if (bitmap != null) {
+                Spacer(modifier = Modifier.height(20.dp))
+
                 Button(
-                    onClick = {
-                        coroutineScope.launch {
-                            ProgressPhotoHelper.deletePhoto(context, dayNumber)
-                        }
-                    },
+                    onClick = { pickImageLauncher.launch("image/*") },
                     shape = RoundedCornerShape(12.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(stringResource(R.string.progress_photo_delete_photo))
+                    Text(
+                        text = if (bitmap != null)
+                            stringResource(R.string.progress_photo_button_upload_another)
+                        else
+                            stringResource(R.string.progress_photo_button_label)
+                    )
+                }
+
+                if (bitmap != null) {
+                    Button(
+                        onClick = {
+                            coroutineScope.launch {
+                                ProgressPhotoHelper.deletePhoto(context, dayNumber)
+                            }
+                        },
+                        shape = RoundedCornerShape(12.dp),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(stringResource(R.string.progress_photo_delete_photo))
+                    }
                 }
             }
         }

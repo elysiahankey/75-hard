@@ -4,10 +4,10 @@
     <string name="home_title">75 Hard Challenge</string>
 
     <string name="challenge_rules_title">Challenge Rules</string>
-    <string name="rule_1">Follow a diet</string>
-    <string name="rule_2">Complete two 45 minute workouts (one must be outside!)</string>
-    <string name="rule_3">Drink 4.5l of water</string>
-    <string name="rule_4">Read 10 pages of a book</string>
+    <string name="rule_1">Follow a diet - any diet</string>
+    <string name="rule_2">Complete two 45 minute workouts (One must be outside!)</string>
+    <string name="rule_3">Drink 3 litres of water</string>
+    <string name="rule_4">Read 10 pages of a non-fiction book</string>
     <string name="rule_5">Take a progress photo</string>
 
     <string name="day_title">Day</string>
@@ -16,6 +16,7 @@
     <string name="day_screen_outside_workout">Outside workout completed?</string>
     <string name="day_screen_second_workout">Second workout completed?</string>
     <string name="day_screen_pages_read">10 pages read</string>
+    <string name="day_screen_todays_book">Today\'s Book</string>
     <string name="day_screen_water_drank_title">Water drank</string>
     <string name="day_screen_progress_photo_title">Progress photo</string>
     <string name="day_screen_weight_tracker_title">Weight Tracker</string>

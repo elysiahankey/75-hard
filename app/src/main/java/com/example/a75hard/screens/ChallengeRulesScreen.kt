@@ -2,6 +2,7 @@ package com.example.a75hard.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -20,6 +22,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.painter.BrushPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -60,7 +66,7 @@ fun ChallengeRulesScreen(navController: NavHostController) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(20.dp)
+                    .padding(top = 20.dp, start = 20.dp, end = 20.dp)
                     .verticalScroll(scrollState)
                     .clip(RoundedCornerShape(16.dp))
                     .background(MaterialTheme.colorScheme.onPrimary),
@@ -80,7 +86,8 @@ fun ChallengeRulesScreen(navController: NavHostController) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(20.dp),
+                        .padding(start = 20.dp, end = 20.dp, bottom = 20.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     val rules = listOf<Int>(
                         R.string.rule_1,
@@ -90,12 +97,25 @@ fun ChallengeRulesScreen(navController: NavHostController) {
                         R.string.rule_5
                     )
 
+                    Spacer(modifier = Modifier.size(15.dp))
+
                     rules.forEachIndexed { index, resId ->
                         Text(
-                            text = "${index + 1}. ${stringResource(id = resId)}",
-                            style = MaterialTheme.typography.titleLarge
+                            text = "${index + 1}.",
+                            style = MaterialTheme.typography.titleLarge,
+                            textAlign = TextAlign.Center
                         )
-                        Spacer(modifier = Modifier.size(20.dp))
+                        Spacer(modifier = Modifier.size(15.dp))
+                        Text(
+                            text = stringResource(id = resId),
+                            style = MaterialTheme.typography.titleLarge,
+                            textAlign = TextAlign.Center
+                        )
+                        if (index != rules.lastIndex) {
+                            Spacer(modifier = Modifier.size(15.dp))
+                            HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
+                        }
+                        Spacer(modifier = Modifier.size(15.dp))
                     }
                 }
             }

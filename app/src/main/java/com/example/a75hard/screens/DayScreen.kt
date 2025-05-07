@@ -44,10 +44,10 @@ import com.example.a75hard.R
 import com.example.a75hard.components.Checkboxes
 import com.example.a75hard.components.Notes
 import com.example.a75hard.components.ProgressPhoto
+import com.example.a75hard.components.TodaysBook
 import com.example.a75hard.components.WaterTracker
 import com.example.a75hard.components.WeightTracker
-import com.example.a75hard.viewmodels.DayViewModel
-import com.example.a75hard.viewmodels.HomeViewModel
+import com.example.a75hard.viewmodels.ViewModel
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,15 +55,10 @@ import kotlinx.coroutines.delay
 fun DayScreen(
     navController: NavHostController,
     dayNumber: String,
-    homeViewModel: HomeViewModel = hiltViewModel(),
-    dayViewModel: DayViewModel = hiltViewModel()
+    viewModel: ViewModel = hiltViewModel()
 ) {
 
-    LaunchedEffect(Unit) {
-        dayViewModel.bindHomeViewModel(homeViewModel)
-    }
-
-    val recentlyCompletedDay by homeViewModel.recentlyCompletedDay.collectAsState()
+    val recentlyCompletedDay by viewModel.recentlyCompletedDay.collectAsState()
     var showSuccessAnimation by remember { mutableStateOf(false) }
 
     LaunchedEffect(recentlyCompletedDay) {
@@ -71,7 +66,7 @@ fun DayScreen(
             showSuccessAnimation = true
             delay(3700)
             showSuccessAnimation = false
-            homeViewModel.clearRecentlyCompletedDay() // Reset trigger
+            viewModel.clearRecentlyCompletedDay() // Reset trigger
         }
     }
 
@@ -141,9 +136,13 @@ fun DayScreen(
                         .background(MaterialTheme.colorScheme.onPrimary),
                 ) {
                     Checkboxes(
-                        items = DayViewModel.Companion.checkboxList,
+                        items = ViewModel.checkboxList,
                         dayNumber = dayNumber
                     )
+
+                    HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
+
+                    TodaysBook(dayNumber = dayNumber)
 
                     HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
 
@@ -169,7 +168,7 @@ fun DayScreen(
                     // Step trackers from Google Health
 
                     Button(
-                        onClick = { dayViewModel.resetDay() },
+                        onClick = { viewModel.resetDay(dayNumber) },
                         modifier = Modifier
                             .padding(16.dp)
                             .fillMaxWidth(),
