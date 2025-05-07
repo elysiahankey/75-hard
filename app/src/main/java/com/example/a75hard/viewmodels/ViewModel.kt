@@ -2,7 +2,6 @@ package com.example.a75hard.viewmodels
 
 import android.app.Application
 import android.util.Log
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -41,8 +40,6 @@ class ViewModel @Inject constructor(
     }
 
     private val dayNumber: String = savedStateHandle["dayNumber"] ?: "1"
-    var currentDay = mutableStateOf("0")
-        private set
 
     private val dataStoreManager = DataStoreManager(application)
 
@@ -170,7 +167,6 @@ class ViewModel @Inject constructor(
         val updated = current + day
         _recentlyCompletedDay.value = day
 
-        Log.d("ViewModel", "markDayComplete: current=$current, updated=$updated")
         _completedDays.value = updated
 
         viewModelScope.launch {
@@ -180,8 +176,6 @@ class ViewModel @Inject constructor(
 
     fun markDayIncomplete(day: String) {
         val current = _completedDays.value
-
-        Log.d("ViewModel", "markDayIncomplete: current=$current")
 
         if (day in current) {
             val updated = current - day

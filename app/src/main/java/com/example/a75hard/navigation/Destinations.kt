@@ -14,7 +14,7 @@ interface Destination {
 object Home : Destination {
     override val name = "Home"
     override val route = "home"
-    override val icon = @androidx.compose.runtime.Composable {
+    override val icon = @Composable {
         Icon(
             painterResource(R.drawable.ic_search),
             contentDescription = null
@@ -25,7 +25,7 @@ object Home : Destination {
 object Rules : Destination {
     override val name = "Rules"
     override val route = "rules"
-    override val icon = @androidx.compose.runtime.Composable {
+    override val icon = @Composable {
         Icon(
             painterResource(R.drawable.ic_search),
             contentDescription = null
@@ -36,7 +36,7 @@ object Rules : Destination {
 object Settings : Destination {
     override val name = "Settings"
     override val route = "settings"
-    override val icon = @androidx.compose.runtime.Composable {
+    override val icon = @Composable {
         Icon(
             painterResource(R.drawable.ic_search),
             contentDescription = null

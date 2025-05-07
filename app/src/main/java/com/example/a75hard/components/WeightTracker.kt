@@ -32,14 +32,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.a75hard.R
 import com.example.a75hard.helpers.WeightHelper
-import com.example.a75hard.viewmodels.ViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun WeightTracker(dayNumber: String, viewModel: ViewModel = hiltViewModel()) {
+fun WeightTracker(dayNumber: String) {
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
     var input by remember { mutableStateOf("") }
@@ -84,7 +82,7 @@ fun WeightTracker(dayNumber: String, viewModel: ViewModel = hiltViewModel()) {
                             context,
                             dayNumber,
                             it
-                        ) // Pass the new input value
+                        )
                     }
                 },
                 label = { Text(text = stringResource(R.string.weight_tracker_weight_field)) },

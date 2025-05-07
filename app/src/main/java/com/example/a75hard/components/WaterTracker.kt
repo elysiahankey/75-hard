@@ -44,7 +44,7 @@ import com.example.a75hard.R
 import com.example.a75hard.viewmodels.ViewModel
 
 @Composable
-fun WaterTracker(dayNumber: String, viewModel: ViewModel = hiltViewModel()) {
+fun WaterTracker(viewModel: ViewModel = hiltViewModel()) {
     val goal = ViewModel.WATER_GOAL_ML
     val currentProgress by viewModel.waterDrank.collectAsState()
     var input by remember { mutableStateOf("") }
@@ -163,7 +163,5 @@ fun WaterTracker(dayNumber: String, viewModel: ViewModel = hiltViewModel()) {
 @Preview(showBackground = true)
 @Composable
 fun WaterTrackerPreview() {
-    WaterTracker(
-        dayNumber = "1"
-    )
+    WaterTracker()
 }

@@ -146,7 +146,7 @@ fun DayScreen(
 
                     HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
 
-                    WaterTracker(dayNumber = dayNumber)
+                    WaterTracker()
 
                     HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
 

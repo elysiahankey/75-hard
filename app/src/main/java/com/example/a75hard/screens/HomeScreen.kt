@@ -1,6 +1,5 @@
 package com.example.a75hard.screens
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -17,10 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,16 +28,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.a75hard.R
 import com.example.a75hard.components.Grid
 import com.example.a75hard.helpers.DataStoreKeys
-import com.example.a75hard.helpers.WeightHelper.getAllWeights
 import com.example.a75hard.helpers.dataStore
 import com.example.a75hard.navigation.BottomNavBar
-import com.example.a75hard.viewmodels.ViewModel
 import kotlinx.coroutines.flow.map
 
 @Composable
@@ -115,7 +108,6 @@ fun HomeScreen(
                         )
                     ,
                 ) {
-                    Log.d("HomeScreen", "Count is ${completedCount}")
                     Text(
                         text = "${completedCount}/75 days complete",
                         style = MaterialTheme.typography.titleMedium,
@@ -137,7 +129,7 @@ fun HomeScreen(
 }
 
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
     var navController = rememberNavController()

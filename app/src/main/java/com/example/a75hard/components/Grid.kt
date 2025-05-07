@@ -21,8 +21,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.a75hard.ui.theme.inversePrimaryLight
-import com.example.a75hard.ui.theme.onPrimaryContainerLight
 
 @Composable
 fun Grid(

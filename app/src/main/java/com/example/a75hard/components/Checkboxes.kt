@@ -8,11 +8,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -30,8 +26,6 @@ import kotlinx.coroutines.launch
 fun Checkboxes(items: List<Int>, dayNumber: String, viewModel: ViewModel = hiltViewModel()) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
-
-    var inputText by remember { mutableStateOf("") }
 
     val checkboxStates = items.map { item ->
         item to getCheckboxState(context, dayNumber, item).collectAsState(initial = false).value

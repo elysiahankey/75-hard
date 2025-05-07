@@ -1,7 +1,6 @@
 package com.example.a75hard.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -12,7 +11,6 @@ import com.example.a75hard.screens.HomeScreen
 import com.example.a75hard.screens.SettingsScreen
 import com.example.a75hard.screens.WaterTrackerScreen
 import com.example.a75hard.screens.WeightTrackerScreen
-import com.example.a75hard.viewmodels.ViewModel
 
 fun NavHostController.navigateTo(route: String) =
     this.navigate(route) {
@@ -55,7 +53,6 @@ fun NavHost(navController: NavHostController) {
         }
         composable(route = "dayscreen/{dayNumber}") { backStackEntry ->
             val dayNumber = backStackEntry.arguments?.getString("dayNumber") ?: "0"
-            val viewModel = hiltViewModel<ViewModel>()
 
             DayScreen(
                 navController = navController,

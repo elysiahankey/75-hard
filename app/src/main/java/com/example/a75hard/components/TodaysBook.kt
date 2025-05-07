@@ -46,7 +46,6 @@ fun TodaysBook(dayNumber: String) {
         val book = getOrInitBookState(context, dayNumber)
         inputText = book
     }
-//    val savedBook by savedBookFlow.collectAsState(initial = "")
 
     Column(
         modifier = Modifier
