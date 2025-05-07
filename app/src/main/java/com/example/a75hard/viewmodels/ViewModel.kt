@@ -41,7 +41,8 @@ class ViewModel @Inject constructor(
     }
 
     private val dayNumber: String = savedStateHandle["dayNumber"] ?: "1"
-    var currentDay: String = mutableStateOf("").toString()
+    var currentDay = mutableStateOf("0")
+        private set
 
     private val dataStoreManager = DataStoreManager(application)
 
@@ -175,8 +176,6 @@ class ViewModel @Inject constructor(
         viewModelScope.launch {
             dataStoreManager.saveCompletedDays(updated)
         }
-
-        currentDay = dayNumber
     }
 
     fun markDayIncomplete(day: String) {
@@ -191,7 +190,7 @@ class ViewModel @Inject constructor(
                 dataStoreManager.saveCompletedDays(updated)
             }
         } else {
-            Log.d("HomeViewModel", "Day $day not found in completed days.")
+            Log.d("ViewModel", "Day $day not found in completed days.")
         }
     }
 
@@ -216,7 +215,7 @@ class ViewModel @Inject constructor(
     fun resetAllDays() {
         viewModelScope.launch {
             for (day in 1..75) {
-                resetDay(day.toString()) // Reset each day
+                resetDay(day.toString())
             }
             dataStoreManager.clearCompletedDays()
         }
