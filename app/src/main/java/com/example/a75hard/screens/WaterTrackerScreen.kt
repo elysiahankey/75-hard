@@ -34,9 +34,12 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.a75hard.R
 import com.example.a75hard.helpers.WaterHelper.getAllWater
 import ir.ehsannarmani.compose_charts.LineChart
@@ -57,7 +60,7 @@ fun WaterTrackerScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Water Tracker",
+                        text = stringResource(R.string.water_tracker_title),
                     )
                 },
                 navigationIcon = {
@@ -96,7 +99,7 @@ fun WaterTrackerScreen(
             ) {
                 val context = LocalContext.current
 
-                val waterEntries by produceState(initialValue = emptyList<Pair<Int, Float>>(), context) {
+                val waterEntries by produceState(initialValue = emptyList<Pair<Int, Int>>(), context) {
                     value = getAllWater(context)
                 }
 
@@ -159,4 +162,13 @@ fun WaterTrackerScreen(
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun WaterTrackerScreenPreview() {
+    val navController = rememberNavController()
+    WaterTrackerScreen(
+        navController = navController
+    )
 }

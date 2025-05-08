@@ -35,6 +35,7 @@ import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.a75hard.BuildConfig
 import com.example.a75hard.R
 import com.example.a75hard.components.SettingsButton
 import com.example.a75hard.navigation.BottomNavBar
@@ -45,6 +46,7 @@ fun SettingsScreen(
     navController: NavHostController,
     onClickWeightTracker: () -> Unit,
     onClickWaterTracker: () -> Unit,
+    onClickAbout: () -> Unit,
     viewModel: ViewModel = hiltViewModel()
 ) {
     Scaffold(
@@ -133,6 +135,22 @@ fun SettingsScreen(
                             }
                         )
                     }
+                    HorizontalDivider()
+                    SettingsButton(
+                        onClick = { onClickAbout() },
+                        label = stringResource(R.string.settings_libraries_button)
+                    )
+                }
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp),
+                ) {
+                    Text(
+                        text = "Version: ${BuildConfig.VERSION_CODE} (${BuildConfig.VERSION_NAME})",
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
                 }
             }
         }
@@ -146,6 +164,7 @@ fun SettingsScreenPreview() {
     SettingsScreen(
         navController = navController,
         onClickWeightTracker = {},
-        onClickWaterTracker = {}
+        onClickWaterTracker = {},
+        onClickAbout = {}
     )
 }

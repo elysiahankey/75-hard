@@ -43,7 +43,7 @@ class ViewModel @Inject constructor(
 
     private val dataStoreManager = DataStoreManager(application)
 
-    private val _waterProgress = MutableStateFlow(0f)
+    private val _waterProgress = MutableStateFlow(0)
     private val _checked = MutableStateFlow(false)
     private val _photoUploaded = MutableStateFlow(false)
 
@@ -58,8 +58,6 @@ class ViewModel @Inject constructor(
     val recentlyCompletedDay: StateFlow<String?> = _recentlyCompletedDay
 
     val waterDrank: StateFlow<Int> = _waterProgress
-        .map { (it * WATER_GOAL_ML).toInt() }
-        .stateIn(viewModelScope, SharingStarted.Eagerly, 0)
 
     val isDayComplete: StateFlow<Boolean> = combine(
         _checked, waterDrank, _photoUploaded
@@ -104,20 +102,18 @@ class ViewModel @Inject constructor(
 
     fun addWater(amount: Int) {
         viewModelScope.launch {
-            val currentDrank = (_waterProgress.value * WATER_GOAL_ML).toInt()
-            val updated = currentDrank + amount
-            val newProgress = updated / WATER_GOAL_ML.toFloat()
-            _waterProgress.value = newProgress
-            saveWaterProgress(newProgress)
+            val updated = _waterProgress.value + amount
+            _waterProgress.value = updated
+            saveWaterProgress(updated)
         }
     }
 
     fun resetWater() {
-        _waterProgress.value = 0f
-        saveWaterProgress(0f)
+        _waterProgress.value = 0
+        saveWaterProgress(0)
     }
 
-    private fun saveWaterProgress(progress: Float) {
+    private fun saveWaterProgress(progress: Int) {
         viewModelScope.launch {
             WaterHelper.saveWaterProgress(getApplication(), progress, dayNumber)
         }

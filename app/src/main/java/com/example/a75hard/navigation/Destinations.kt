@@ -82,4 +82,16 @@ object WaterTracker: Destination {
     }
 }
 
+object Libraries: Destination {
+    override val name = "Libraries"
+    override val route = "libraries"
+
+    override val icon: @Composable () -> Unit = {
+        Icon(
+            painter = painterResource(R.drawable.ic_search),
+            contentDescription = null
+        )
+    }
+}
+
 val topLevelRoutes = listOf(Home, Rules, Settings)

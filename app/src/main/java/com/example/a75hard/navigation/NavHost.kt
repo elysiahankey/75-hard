@@ -5,6 +5,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.a75hard.screens.LibrariesScreen
 import com.example.a75hard.screens.ChallengeRulesScreen
 import com.example.a75hard.screens.DayScreen
 import com.example.a75hard.screens.HomeScreen
@@ -48,6 +49,9 @@ fun NavHost(navController: NavHostController) {
                 },
                 onClickWaterTracker = {
                     navController.navigate(route = WaterTracker.route)
+                },
+                onClickAbout = {
+                    navController.navigate(route = Libraries.route)
                 }
             )
         }
@@ -64,6 +68,9 @@ fun NavHost(navController: NavHostController) {
         }
         composable(route = WaterTracker.route) {
             WaterTrackerScreen(navController)
+        }
+        composable(route = Libraries.route) {
+            LibrariesScreen(navController)
         }
     }
 }

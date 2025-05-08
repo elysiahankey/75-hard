@@ -1,5 +1,6 @@
 [versions]
 agp = "8.9.2"
+browser = "1.8.0"
 composeBomVersion = "2025.04.01"
 composeCharts = "0.1.7"
 core = "1.6.1"
@@ -25,6 +26,7 @@ datastorePreferencesCore = "1.2.0-alpha01"
 datastorePreferences = "1.2.0-alpha01"
 
 [libraries]
+androidx-browser = { module = "androidx.browser:browser", version.ref = "browser" }
 androidx-compose-bom-v20230601 = { module = "androidx.compose:compose-bom", version.ref = "composeBomVersion" }
 androidx-core = { module = "androidx.test:core", version.ref = "core" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

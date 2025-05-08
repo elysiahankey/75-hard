@@ -31,15 +31,21 @@
     <string name="progress_photo_button_upload_another">Upload a different photo</string>
     <string name="progress_photo_delete_photo">Delete photo</string>
 
-    <string name="weight_tracker_weight_field">Todays weight</string>
+    <string name="weight_tracker_title">Weight tracker</string>
+    <string name="weight_tracker_weight_field">Today\'s weight</string>
+
+    <string name="water_tracker_title">Water tracker</string>
+
+    <string name="libraries_title">Libraries</string>
 
     <string name="settings_title">Settings</string>
 
+    <string name="settings_weight_tracker_button">Weight tracker</string>
+    <string name="settings_water_tracker_button">Water tracker</string>
+    <string name="settings_libraries_button">Libraries</string>
     <string name="settings_reset_all_button">Reset all</string>
     <string name="reset_app_dialog_title">Reset app?</string>
     <string name="reset_app_dialog_text">Are you sure you want to reset all days? This will delete all progress and photos.</string>
     <string name="reset_app_dialog_confirm">Reset</string>
     <string name="reset_app_dialog_cancel">Cancel</string>
-    <string name="settings_weight_tracker_button">Weight tracker</string>
-    <string name="settings_water_tracker_button">Water tracker</string>
 </resources>

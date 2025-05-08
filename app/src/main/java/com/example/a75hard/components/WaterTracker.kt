@@ -1,5 +1,6 @@
 package com.example.a75hard.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -115,12 +116,12 @@ fun WaterTracker(viewModel: ViewModel = hiltViewModel()) {
                             )
 
                             Button(
+                                enabled = !(input.isBlank()),
                                 onClick = {
-                                    val inputValue = input.toFloatOrNull()
-                                    if (inputValue != null) {
-                                        viewModel.addWater(inputValue.toInt())
-                                        input = ""
-                                    }
+                                    val inputValue = input.toInt()
+                                    viewModel.addWater(inputValue)
+                                    input = ""
+                                    Log.d("Water Tracker", "Input: ${inputValue}")
                                 },
                                 shape = RoundedCornerShape(topEnd = 12.dp, bottomEnd = 12.dp),
                                 modifier = Modifier.fillMaxHeight()
