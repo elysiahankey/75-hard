@@ -17,6 +17,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -52,7 +53,15 @@ class ViewModel @Inject constructor(
     private val _hasLoadedCheckboxes = MutableStateFlow(false)
 
     private val _completedDays = MutableStateFlow<Set<String>>(emptySet())
-    val completedDays: StateFlow<Set<String>> = _completedDays
+    val completedDays: StateFlow<Set<String>> = _completedDays.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            dataStoreManager.completedDays.collect {
+                _completedDays.value = it
+            }
+        }
+    }
 
     private val _recentlyCompletedDay = MutableStateFlow<String?>(null)
     val recentlyCompletedDay: StateFlow<String?> = _recentlyCompletedDay

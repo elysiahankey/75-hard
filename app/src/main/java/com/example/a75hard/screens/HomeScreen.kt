@@ -28,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.a75hard.R
@@ -35,6 +36,7 @@ import com.example.a75hard.components.Grid
 import com.example.a75hard.helpers.DataStoreKeys
 import com.example.a75hard.helpers.dataStore
 import com.example.a75hard.navigation.BottomNavBar
+import com.example.a75hard.viewmodels.ViewModel
 import kotlinx.coroutines.flow.map
 
 @Composable
@@ -45,14 +47,9 @@ fun HomeScreen(
 
     val context = LocalContext.current
 
-    val completedDaysFlow = remember {
-        context.dataStore.data
-            .map { preferences ->
-                preferences[DataStoreKeys.COMPLETED_DAYS] ?: emptySet()
-            }
-    }
+    val viewModel: ViewModel = hiltViewModel()
 
-    val completedDays by completedDaysFlow.collectAsState(initial = emptySet())
+    val completedDays by viewModel.completedDays.collectAsState()
     val completedCount = completedDays.count()
 
     Scaffold(

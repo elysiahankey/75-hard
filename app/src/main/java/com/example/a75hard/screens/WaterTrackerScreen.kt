@@ -93,7 +93,6 @@ fun WaterTrackerScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(20.dp)
-                    .verticalScroll(scrollState)
                     .clip(RoundedCornerShape(16.dp))
                     .background(MaterialTheme.colorScheme.onPrimary),
             ) {
@@ -152,10 +151,12 @@ fun WaterTrackerScreen(
 
                     HorizontalDivider()
 
-                    waterEntries.forEach { (day, water) ->
-                        Row(modifier = Modifier.padding(vertical = 4.dp)) {
-                            Text("Day $day", modifier = Modifier.weight(1f))
-                            Text("%,dml".format(water.toInt()), modifier = Modifier.weight(1f))
+                    Column(modifier = Modifier.verticalScroll(scrollState)) {
+                        waterEntries.forEach { (day, water) ->
+                            Row(modifier = Modifier.padding(vertical = 4.dp)) {
+                                Text("Day $day", modifier = Modifier.weight(1f))
+                                Text("%,dml".format(water.toInt()), modifier = Modifier.weight(1f))
+                            }
                         }
                     }
                 }

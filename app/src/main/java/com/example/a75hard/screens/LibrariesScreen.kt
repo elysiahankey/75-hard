@@ -107,26 +107,26 @@ fun LibrariesScreen(
                         },
                         label = "Compose Charts"
                     )
-                    HorizontalDivider()
-                    SettingsButton(
-                        onClick = {
-                            openChromeCustomTab(
-                                context = context,
-                                url = ""
-                            )
-                        },
-                        label = "Hypothetical second library"
-                    )
-                    HorizontalDivider()
-                    SettingsButton(
-                        onClick = {
-                            openChromeCustomTab(
-                                context = context,
-                                url = ""
-                            )
-                        },
-                        label = "Hypothetical third library"
-                    )
+//                    HorizontalDivider()
+//                    SettingsButton(
+//                        onClick = {
+//                            openChromeCustomTab(
+//                                context = context,
+//                                url = ""
+//                            )
+//                        },
+//                        label = "Hypothetical second library"
+//                    )
+//                    HorizontalDivider()
+//                    SettingsButton(
+//                        onClick = {
+//                            openChromeCustomTab(
+//                                context = context,
+//                                url = ""
+//                            )
+//                        },
+//                        label = "Hypothetical third library"
+//                    )
                 }
             }
         }

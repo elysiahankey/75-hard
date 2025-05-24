@@ -159,10 +159,7 @@ fun DayScreen(
                     HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
 
                     Notes(dayNumber = dayNumber)
-
-                    // Possibly also add info icons
-
-                    // Add a weight option - maybe add a starting weight field to a settings screen or something
+                    
                     // An emoji option in the top bar? that also displays in the grid?
 
                     // Step trackers from Google Health

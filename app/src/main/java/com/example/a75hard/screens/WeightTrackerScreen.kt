@@ -94,7 +94,6 @@ fun WeightTrackerScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(20.dp)
-                    .verticalScroll(scrollState)
                     .clip(RoundedCornerShape(16.dp))
                     .background(MaterialTheme.colorScheme.onPrimary),
             ) {
@@ -153,10 +152,12 @@ fun WeightTrackerScreen(
 
                     HorizontalDivider()
 
-                    weightEntries.forEach { (day, weight) ->
-                        Row(modifier = Modifier.padding(vertical = 4.dp)) {
-                            Text("Day $day", modifier = Modifier.weight(1f))
-                            Text("${weight}kg", modifier = Modifier.weight(1f))
+                    Column(modifier = Modifier.verticalScroll(scrollState)) {
+                        weightEntries.forEach { (day, weight) ->
+                            Row(modifier = Modifier.padding(vertical = 4.dp)) {
+                                Text("Day $day", modifier = Modifier.weight(1f))
+                                Text("${weight}kg", modifier = Modifier.weight(1f))
+                            }
                         }
                     }
                 }
