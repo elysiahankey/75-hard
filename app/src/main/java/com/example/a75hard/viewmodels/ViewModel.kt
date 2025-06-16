@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -55,14 +55,6 @@ class ViewModel @Inject constructor(
     private val _completedDays = MutableStateFlow<Set<String>>(emptySet())
     val completedDays: StateFlow<Set<String>> = _completedDays.asStateFlow()
 
-    init {
-        viewModelScope.launch {
-            dataStoreManager.completedDays.collect {
-                _completedDays.value = it
-            }
-        }
-    }
-
     private val _recentlyCompletedDay = MutableStateFlow<String?>(null)
     val recentlyCompletedDay: StateFlow<String?> = _recentlyCompletedDay
 
@@ -75,15 +67,16 @@ class ViewModel @Inject constructor(
     }.stateIn(viewModelScope, SharingStarted.Eagerly, false)
 
     init {
-        loadWaterProgress()
-        loadPhotoState()
-        loadCheckboxState()
-
         viewModelScope.launch {
             dataStoreManager.completedDays.collect {
+                Log.d("ViewModel", "Collected completedDays from DataStore: $it")
                 _completedDays.value = it
             }
         }
+
+        loadWaterProgress()
+        loadPhotoState()
+        loadCheckboxState()
 
         viewModelScope.launch {
             combine(
@@ -95,7 +88,7 @@ class ViewModel @Inject constructor(
             }.collect { (complete, waterLoaded, photoLoaded) ->
                 if (!waterLoaded || !photoLoaded) return@collect
 
-                Log.d("ViewModel", "isDayComplete changed to $complete for day $dayNumber")
+                Log.d("ViewModel", "isDayComplete = $complete for day $dayNumber")
                 if (complete) {
                     markDayComplete(dayNumber)
                 } else {
@@ -168,30 +161,35 @@ class ViewModel @Inject constructor(
     }
 
     fun markDayComplete(day: String) {
-        val current = _completedDays.value
-        val updated = current + day
-        _recentlyCompletedDay.value = day
-
-        _completedDays.value = updated
-
         viewModelScope.launch {
+            val current = dataStoreManager.completedDays.first()
+            val updated = current + day
+
+            Log.d("ViewModel", "Marking complete: $day, new set: $updated")
+
+            _completedDays.value = updated
+            _recentlyCompletedDay.value = day
+
             dataStoreManager.saveCompletedDays(updated)
         }
     }
 
-    fun markDayIncomplete(day: String) {
-        val current = _completedDays.value
 
-        if (day in current) {
-            val updated = current - day
-            _completedDays.value = updated
-            viewModelScope.launch {
+    fun markDayIncomplete(day: String) {
+        viewModelScope.launch {
+            val current = dataStoreManager.completedDays.first()
+
+            if (day in current) {
+                val updated = current - day
+                Log.d("ViewModel", "Marking incomplete: $day, new set: $updated")
+                _completedDays.value = updated
                 dataStoreManager.saveCompletedDays(updated)
+            } else {
+                Log.d("ViewModel", "Day $day not found in completed days.")
             }
-        } else {
-            Log.d("ViewModel", "Day $day not found in completed days.")
         }
     }
+
 
     fun clearRecentlyCompletedDay() {
         _recentlyCompletedDay.value = null

@@ -1,6 +1,7 @@
 package com.example.a75hard.helpers
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -25,6 +26,7 @@ class DataStoreManager(private val context: Context) {
     suspend fun saveCompletedDays(days: Set<String>) {
         context.dataStore.edit { preferences ->
             preferences[DataStoreKeys.COMPLETED_DAYS] = days
+            Log.d("DataStore", "Saved completed days: $days")
         }
     }
 
