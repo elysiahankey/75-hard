@@ -50,6 +50,9 @@ fun NavHost(navController: NavHostController) {
                 onClickWaterTracker = {
                     navController.navigate(route = WaterTracker.route)
                 },
+                onClickRules = {
+                    navController.navigate(route = Rules.route)
+                },
                 onClickAbout = {
                     navController.navigate(route = Libraries.route)
                 }
@@ -68,6 +71,9 @@ fun NavHost(navController: NavHostController) {
         }
         composable(route = WaterTracker.route) {
             WaterTrackerScreen(navController)
+        }
+        composable(route = Rules.route) {
+            ChallengeRulesScreen(navController)
         }
         composable(route = Libraries.route) {
             LibrariesScreen(navController)

@@ -94,4 +94,4 @@ object Libraries: Destination {
     }
 }
 
-val topLevelRoutes = listOf(Home, Rules, Settings)
+val topLevelRoutes = listOf(Home, Settings)

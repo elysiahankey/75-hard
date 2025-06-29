@@ -1,5 +1,9 @@
 package com.example.a75hard.components
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,9 +12,11 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,15 +50,38 @@ fun Checkboxes(items: List<Int>, dayNumber: String, viewModel: ViewModel = hiltV
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 4.dp)
-            ) {
-                Checkbox(
-                    checked = isChecked,
-                    onCheckedChange = { newChecked ->
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) {
                         coroutineScope.launch {
-                            CheckboxHelper.saveCheckboxState(context, dayNumber, item, newChecked)
+                            CheckboxHelper.saveCheckboxState(context, dayNumber, item, !isChecked)
                         }
                     }
-                )
+            ) {
+                Box(
+                    modifier = Modifier.pointerInput(Unit) {
+                        detectTapGestures {
+                            coroutineScope.launch {
+                                CheckboxHelper.saveCheckboxState(context, dayNumber, item, !isChecked)
+                            }
+                        }
+                    }
+                ) {
+                    Checkbox(
+                        checked = isChecked,
+                        onCheckedChange = { newChecked ->
+                            coroutineScope.launch {
+                                CheckboxHelper.saveCheckboxState(
+                                    context,
+                                    dayNumber,
+                                    item,
+                                    newChecked
+                                )
+                            }
+                        }
+                    )
+                }
                 Text(text = stringResource(item))
             }
         }

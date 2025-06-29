@@ -8,7 +8,8 @@
     <string name="rule_2">Complete two 45 minute workouts (One must be outside!)</string>
     <string name="rule_3">Drink 3 litres of water</string>
     <string name="rule_4">Read 10 pages of a non-fiction book</string>
-    <string name="rule_5">Take a progress photo</string>
+    <string name="rule_5">Take a photo to track your progress</string>
+    <string name="challenge_fail_text">If you fail any of these, you must start the challenge again from day 1!</string>
 
     <string name="day_title">Day</string>
 

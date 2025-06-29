@@ -46,6 +46,7 @@ fun SettingsScreen(
     navController: NavHostController,
     onClickWeightTracker: () -> Unit,
     onClickWaterTracker: () -> Unit,
+    onClickRules: () -> Unit,
     onClickAbout: () -> Unit,
     viewModel: ViewModel = hiltViewModel()
 ) {
@@ -101,6 +102,11 @@ fun SettingsScreen(
                         .clip(RoundedCornerShape(12.dp)),
                     verticalArrangement = Arrangement.spacedBy(0.dp)
                 ) {
+                    SettingsButton(
+                        onClick = { onClickRules() },
+                        label = stringResource(R.string.challenge_rules_title)
+                    )
+                    HorizontalDivider()
                     SettingsButton(
                         onClick = { onClickWeightTracker() },
                         label = stringResource(R.string.settings_weight_tracker_button)
@@ -165,6 +171,7 @@ fun SettingsScreenPreview() {
         navController = navController,
         onClickWeightTracker = {},
         onClickWaterTracker = {},
+        onClickRules = {},
         onClickAbout = {}
     )
 }

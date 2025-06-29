@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,15 +13,22 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -30,15 +38,32 @@ import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.a75hard.R
-import com.example.a75hard.navigation.BottomNavBar
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChallengeRulesScreen(navController: NavHostController) {
+    val scrollState = rememberScrollState()
+    val context = LocalContext.current
+
     Scaffold(
-        bottomBar = {
-            BottomNavBar(navController)
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.challenge_rules_title),
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back",
+                        )
+                    }
+                },
+            )
         },
-        modifier = Modifier.fillMaxSize()
+        containerColor = MaterialTheme.colorScheme.surface
     ) { innerPadding ->
 
         val scrollState = rememberScrollState()
@@ -65,22 +90,10 @@ fun ChallengeRulesScreen(navController: NavHostController) {
                     .clip(RoundedCornerShape(16.dp))
                     .background(MaterialTheme.colorScheme.onPrimary),
             ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(20.dp),
-                ) {
-                    Text(
-                        text = stringResource(R.string.challenge_rules_title),
-                        style = MaterialTheme.typography.displayLarge,
-                        textAlign = TextAlign.Center
-                    )
-                }
-
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 20.dp, end = 20.dp, bottom = 20.dp),
+                        .padding(bottom = 20.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     val rules = listOf<Int>(
@@ -94,22 +107,35 @@ fun ChallengeRulesScreen(navController: NavHostController) {
                     Spacer(modifier = Modifier.size(15.dp))
 
                     rules.forEachIndexed { index, resId ->
-                        Text(
-                            text = "${index + 1}.",
-                            style = MaterialTheme.typography.titleLarge,
-                            textAlign = TextAlign.Center
-                        )
-                        Spacer(modifier = Modifier.size(15.dp))
-                        Text(
-                            text = stringResource(id = resId),
-                            style = MaterialTheme.typography.titleLarge,
-                            textAlign = TextAlign.Center
-                        )
-                        if (index != rules.lastIndex) {
-                            Spacer(modifier = Modifier.size(15.dp))
-                            HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(
+                                text = "${index + 1}.",
+                                style = MaterialTheme.typography.bodyLarge,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.weight(0.2f)
+                            )
+                            Text(
+                                text = stringResource(id = resId),
+                                style = MaterialTheme.typography.bodyLarge,
+                                modifier = Modifier.weight(0.8f)
+                            )
                         }
+//                        if (index != rules.lastIndex) {
+//                            Spacer(modifier = Modifier.size(15.dp))
+//                            HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
+//                        }
                         Spacer(modifier = Modifier.size(15.dp))
+
+                    }
+                    Box(
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.challenge_fail_text),
+                            style = MaterialTheme.typography.bodyLarge,
+                        )
                     }
                 }
             }
