@@ -85,7 +85,11 @@ fun ChallengeRulesScreen(navController: NavHostController) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 20.dp, start = 20.dp, end = 20.dp)
+                    .padding(
+                        top = 35.dp,
+                        start = 20.dp,
+                        end = 20.dp
+                    )
                     .verticalScroll(scrollState)
                     .clip(RoundedCornerShape(16.dp))
                     .background(MaterialTheme.colorScheme.onPrimary),
@@ -93,7 +97,10 @@ fun ChallengeRulesScreen(navController: NavHostController) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 20.dp),
+                        .padding(
+                            horizontal = 16.dp,
+                            vertical = 20.dp
+                        ),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     val rules = listOf<Int>(
@@ -114,30 +121,32 @@ fun ChallengeRulesScreen(navController: NavHostController) {
                                 text = "${index + 1}.",
                                 style = MaterialTheme.typography.bodyLarge,
                                 textAlign = TextAlign.Center,
-                                modifier = Modifier.weight(0.2f)
+                                modifier = Modifier.weight(0.1f)
                             )
                             Text(
                                 text = stringResource(id = resId),
                                 style = MaterialTheme.typography.bodyLarge,
-                                modifier = Modifier.weight(0.8f)
+                                modifier = Modifier.weight(0.9f)
                             )
                         }
-//                        if (index != rules.lastIndex) {
-//                            Spacer(modifier = Modifier.size(15.dp))
-//                            HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
-//                        }
                         Spacer(modifier = Modifier.size(15.dp))
-
-                    }
-                    Box(
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    ) {
-                        Text(
-                            text = stringResource(R.string.challenge_fail_text),
-                            style = MaterialTheme.typography.bodyLarge,
-                        )
                     }
                 }
+                HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
+
+                Box(
+                    modifier = Modifier.padding(
+                        vertical = 20.dp,
+                        horizontal = 16.dp
+                    )
+                ) {
+                    Text(
+                        text = stringResource(R.string.challenge_fail_text),
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
+                }
+
+                HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
             }
         }
     }

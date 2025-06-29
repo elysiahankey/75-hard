@@ -45,8 +45,6 @@ fun HomeScreen(
     onClickDay: (String) -> Unit
 ) {
 
-    val context = LocalContext.current
-
     val viewModel: ViewModel = hiltViewModel()
 
     val completedDays by viewModel.completedDays.collectAsState()

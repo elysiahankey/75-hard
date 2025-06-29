@@ -4,12 +4,12 @@
     <string name="home_title">75 Hard Challenge</string>
 
     <string name="challenge_rules_title">Challenge Rules</string>
-    <string name="rule_1">Follow a diet - any diet</string>
+    <string name="rule_1">Follow a diet - any diet. This could be vegan, keto, calorie tracking, paleo, etc, but it must be structured.</string>
     <string name="rule_2">Complete two 45 minute workouts (One must be outside!)</string>
     <string name="rule_3">Drink 3 litres of water</string>
     <string name="rule_4">Read 10 pages of a non-fiction book</string>
     <string name="rule_5">Take a photo to track your progress</string>
-    <string name="challenge_fail_text">If you fail any of these, you must start the challenge again from day 1!</string>
+    <string name="challenge_fail_text">75 Hard is a mental toughness program. There are no rest days. If you fail any of the rules for a day, you must start the challenge again from day 1.</string>
 
     <string name="day_title">Day</string>
 
