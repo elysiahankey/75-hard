@@ -1,6 +1,7 @@
 package com.example.a75hard.helpers
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
@@ -40,6 +41,21 @@ object WeightHelper {
         }
 
         return weightEntries
+    }
+
+    suspend fun getWeightChange(context: Context): Double {
+        val weights = getAllWeights(context = context)
+        val startWeight = weights.firstOrNull()?.second.toString().toDoubleOrNull()
+        val latestWeight = weights.lastOrNull()?.second.toString().toDoubleOrNull()
+
+        if (startWeight == null || latestWeight == null) {
+            return 0.0
+        }
+
+        Log.d("Weight", startWeight.toString())
+        Log.d("Weight", latestWeight.toString())
+
+        return startWeight - latestWeight
     }
 
     suspend fun resetWeight(context: Context, dayNumber: String) {
