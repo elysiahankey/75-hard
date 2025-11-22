@@ -43,10 +43,6 @@ import com.example.a75hard.components.SettingsButton
 fun LibrariesScreen(
     navController: NavHostController
 ) {
-    // App version #
-    // Libraries used
-    // https://github.com/ehsannarmani/ComposeCharts
-
     val scrollState = rememberScrollState()
     val context = LocalContext.current
 

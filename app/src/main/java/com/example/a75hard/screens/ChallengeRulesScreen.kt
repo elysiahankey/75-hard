@@ -42,9 +42,6 @@ import com.example.a75hard.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChallengeRulesScreen(navController: NavHostController) {
-    val scrollState = rememberScrollState()
-    val context = LocalContext.current
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -156,6 +153,6 @@ fun ChallengeRulesScreen(navController: NavHostController) {
 @Preview
 @Composable
 fun ChallengeRulesScreenPreview() {
-    var navController = rememberNavController()
+    val navController = rememberNavController()
     ChallengeRulesScreen(navController)
 }

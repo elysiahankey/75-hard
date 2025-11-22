@@ -10,18 +10,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -33,11 +32,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.a75hard.R
 import com.example.a75hard.components.Grid
-import com.example.a75hard.helpers.DataStoreKeys
-import com.example.a75hard.helpers.dataStore
 import com.example.a75hard.navigation.BottomNavBar
+import com.example.a75hard.navigation.ChallengeComplete
 import com.example.a75hard.viewmodels.ViewModel
-import kotlinx.coroutines.flow.map
 
 @Composable
 fun HomeScreen(
@@ -112,6 +109,18 @@ fun HomeScreen(
                     )
                 }
 
+                if (completedDays.contains("75") && completedCount == 75) {
+                    Button(
+                        onClick = { navController.navigate(ChallengeComplete.route) },
+                        shape = RoundedCornerShape(12.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp, start = 16.dp, end = 16.dp),
+                    ) {
+                        Text("Challenge Complete!")
+                    }
+                }
+
                 Spacer(modifier = Modifier.size(20.dp))
 
                 Grid(
@@ -127,7 +136,7 @@ fun HomeScreen(
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    var navController = rememberNavController()
+    val navController = rememberNavController()
     HomeScreen(
         navController = navController,
         onClickDay = {}

@@ -21,7 +21,7 @@ object CheckboxHelper {
     fun getCheckboxState(context: Context, dayNumber: String, item: Int): Flow<Boolean> {
         val checkboxKey = booleanPreferencesKey(getCheckboxKey(dayNumber, item))
         return context.dataStore.data.map { prefs ->
-            prefs[checkboxKey] == true // Default to false if not found
+            prefs[checkboxKey] == true
         }
     }
 

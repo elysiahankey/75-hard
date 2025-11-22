@@ -57,9 +57,9 @@ fun NavHost(navController: NavHostController) {
                 onClickAbout = {
                     navController.navigate(route = Libraries.route)
                 },
-                onClickChallengeComplete = {
-                    navController.navigate(route = ChallengeComplete.route)
-                }
+//                onClickChallengeComplete = {
+//                    navController.navigate(route = ChallengeComplete.route)
+//                }
             )
         }
         composable(route = "dayscreen/{dayNumber}") { backStackEntry ->

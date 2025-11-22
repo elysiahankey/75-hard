@@ -37,6 +37,6 @@ fun BottomNavBar(navController: NavHostController) {
 @Preview
 @Composable
 fun BottomNavBarPreview() {
-    var navController = rememberNavController()
+    val navController = rememberNavController()
     BottomNavBar(navController)
 }

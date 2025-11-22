@@ -14,12 +14,14 @@ import com.example.a75hard.helpers.TodaysBookHelper
 import com.example.a75hard.helpers.WaterHelper
 import com.example.a75hard.helpers.WeightHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,6 +31,13 @@ class ViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     application: Application,
 ) : AndroidViewModel(application) {
+
+    sealed interface NavigationEvent {
+        data object NavigateToChallengeComplete : NavigationEvent
+    }
+
+    private val _navigationChannel = Channel<NavigationEvent>()
+    val navigationEvents = _navigationChannel.receiveAsFlow()
 
     companion object {
         val checkboxList = listOf(
@@ -134,7 +143,6 @@ class ViewModel @Inject constructor(
 
     private fun loadBookState() {
         viewModelScope.launch {
-            // Using the new Flow helper we created in Step 1
             TodaysBookHelper.getBookFlow(getApplication(), dayNumber).collect { book ->
                 _bookState.value = book
             }

@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun _75HardApp() {
     _75HardTheme {
-        var navController = rememberNavController()
+        val navController = rememberNavController()
             NavHost(navController)
     }
 }

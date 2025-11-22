@@ -408,6 +408,6 @@ private fun CompletedFinish(onAnimationFinished: () -> Unit) {
 @Preview
 @Composable
 fun ChallengeCompleteScreenPreview() {
-    var navController = rememberNavController()
+    val navController = rememberNavController()
     ChallengeCompleteScreen(navController = navController)
 }

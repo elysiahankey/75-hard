@@ -47,8 +47,10 @@ import com.example.a75hard.components.ProgressPhoto
 import com.example.a75hard.components.TodaysBook
 import com.example.a75hard.components.WaterTracker
 import com.example.a75hard.components.WeightTracker
+import com.example.a75hard.navigation.ChallengeComplete
 import com.example.a75hard.viewmodels.ViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -66,7 +68,17 @@ fun DayScreen(
             showSuccessAnimation = true
             delay(3700)
             showSuccessAnimation = false
-            viewModel.clearRecentlyCompletedDay() // Reset trigger
+            viewModel.clearRecentlyCompletedDay()
+        }
+    }
+
+    LaunchedEffect(key1 = true) {
+        viewModel.navigationEvents.collectLatest { event ->
+            when (event) {
+                is ViewModel.NavigationEvent.NavigateToChallengeComplete -> {
+                    navController.navigate(ChallengeComplete.route)
+                }
+            }
         }
     }
 
@@ -183,7 +195,7 @@ fun DayScreen(
 @Preview
 @Composable
 fun DayScreenPreview() {
-    var navController = rememberNavController()
+    val navController = rememberNavController()
 
     DayScreen(
         navController = navController,

@@ -25,7 +25,7 @@ object NotesHelper {
     fun getNotesState(context: Context, dayNumber: String): Flow<String> {
         val notesKey = stringPreferencesKey(getNotesKey(dayNumber))
         return context.dataStore.data.map { prefs ->
-            prefs[notesKey] ?: "" // Default to false if not found
+            prefs[notesKey] ?: ""
         }
     }
 }

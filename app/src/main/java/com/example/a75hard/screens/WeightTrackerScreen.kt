@@ -145,6 +145,6 @@ fun WeightTrackerScreen(
 @Preview
 @Composable
 fun WeightTrackerScreenPreview() {
-    var navController = rememberNavController()
+    val navController = rememberNavController()
     WeightTrackerScreen(navController)
 }

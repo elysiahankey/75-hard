@@ -121,7 +121,7 @@ fun WaterTracker(viewModel: ViewModel = hiltViewModel()) {
                                     val inputValue = input.toInt()
                                     viewModel.addWater(inputValue)
                                     input = ""
-                                    Log.d("Water Tracker", "Input: ${inputValue}")
+                                    Log.d("Water Tracker", "Input: $inputValue")
                                 },
                                 shape = RoundedCornerShape(topEnd = 12.dp, bottomEnd = 12.dp),
                                 modifier = Modifier.fillMaxHeight()

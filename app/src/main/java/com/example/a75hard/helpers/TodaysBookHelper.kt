@@ -6,7 +6,6 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlin.text.get
 
 object TodaysBookHelper {
     private fun getBookKey(dayNumber: String): String {
@@ -44,7 +43,7 @@ object TodaysBookHelper {
         val latestKey = stringPreferencesKey("latestBookState")
 
         context.dataStore.edit {
-            it[dayKey] = if (bookText.isBlank()) "<cleared>" else bookText
+            it[dayKey] = bookText.ifBlank { "<cleared>" }
             if (bookText.isNotBlank()) {
                 it[latestKey] = bookText
             } else {

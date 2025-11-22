@@ -32,7 +32,7 @@ object WeightHelper {
         val weightEntries = mutableListOf<Pair<Int, String>>()
 
         for (day in 1..75) {
-            var dayNumber = day.toString()
+            val dayNumber = day.toString()
             val key = stringPreferencesKey("weight_${dayNumber}")
             val weight = prefs[key]
             if (!weight.isNullOrBlank()) {

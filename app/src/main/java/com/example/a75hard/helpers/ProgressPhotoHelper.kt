@@ -29,13 +29,13 @@ object ProgressPhotoHelper {
     fun getPhotoState(context: Context, dayNumber: String): Flow<String> {
         val photoKey = stringPreferencesKey(getPhotoKey(dayNumber))
         return context.dataStore.data.map { prefs ->
-            prefs[photoKey] ?: "" // Default to false if not found
+            prefs[photoKey] ?: ""
         }
     }
 
     suspend fun deletePhoto(context: Context, dayNumber: String) {
         withContext(Dispatchers.IO) {
-            val path = getPhotoState(context, dayNumber).first() // Collect the flow
+            val path = getPhotoState(context, dayNumber).first()
             if (path.isNotEmpty()) {
                 val file = File(path)
                 if (file.exists()) file.delete()
