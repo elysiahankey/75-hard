@@ -117,7 +117,7 @@ fun HomeScreen(
                             .fillMaxWidth()
                             .padding(top = 16.dp, start = 16.dp, end = 16.dp),
                     ) {
-                        Text("Challenge Complete!")
+                        Text(stringResource(R.string.home_challenge_complete_button))
                     }
                 }
 

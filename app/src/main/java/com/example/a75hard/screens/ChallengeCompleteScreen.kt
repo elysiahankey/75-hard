@@ -140,7 +140,6 @@ fun ChallengeCompleteScreen(
                                     ChallengeStep.INTRO -> ChallengeStep.WEIGHT
                                     ChallengeStep.WEIGHT -> ChallengeStep.PHOTOS
                                     ChallengeStep.PHOTOS -> ChallengeStep.WATER
-                                    ChallengeStep.WATER -> ChallengeStep.FINISHED
                                     else -> ChallengeStep.FINISHED
                                 }
 
@@ -149,7 +148,12 @@ fun ChallengeCompleteScreen(
                         },
                         modifier = Modifier.fillMaxWidth(0.8f)
                     ) {
-                        Text(text = if (currentStep == ChallengeStep.FINISHED) "Finish" else "Next")
+                        Text(
+                            text = if (currentStep == ChallengeStep.FINISHED)
+                                stringResource(R.string.challenge_complete_finish_button)
+                            else
+                                stringResource(R.string.challenge_complete_next_button)
+                        )
                     }
                 }
             }
@@ -257,9 +261,15 @@ fun CompletedWeight(context: Context, onAnimationFinished: () -> Unit) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 val weightChangeText =
-                    if (weightChange < 0) "You've gained ${abs(roundedWeightChange)}kg!"
-                    else if (weightChange > 0) "You've lost ${abs(roundedWeightChange)}kg!"
-                    else "Your weight has stayed stable!"
+                    if (weightChange < 0) stringResource(
+                        R.string.challenge_complete_weight_gained,
+                        abs(roundedWeightChange).toString()
+                    )
+                    else if (weightChange > 0) stringResource(
+                        R.string.challenge_complete_weight_lost,
+                        abs(roundedWeightChange).toString()
+                    )
+                    else stringResource(R.string.challenge_complete_weight_stable)
                 Text(
                     text = weightChangeText,
                     style = MaterialTheme.typography.titleLarge,
@@ -304,7 +314,7 @@ fun CompletedPhotoProgress(
                 val day1Bitmap = BitmapFactory.decodeFile(day1Photo)
                 if (day1Bitmap != null) {
                     Text(
-                        text = "Here's where you started:",
+                        text = stringResource(R.string.challenge_complete_photo_start),
                         style = MaterialTheme.typography.titleLarge,
                         textAlign = TextAlign.Center,
                     )
@@ -335,7 +345,7 @@ fun CompletedPhotoProgress(
                 val day75Bitmap = BitmapFactory.decodeFile(day75Photo)
                 if (day75Bitmap != null) {
                     Text(
-                        text = "And here's where you are now:",
+                        text = stringResource(R.string.challenge_complete_photo_end),
                         style = MaterialTheme.typography.titleLarge,
                         textAlign = TextAlign.Center,
                     )
@@ -375,9 +385,8 @@ fun CompletedWater(context: Context, onAnimationFinished: () -> Unit) {
                 value = getTotalWaterInL(context)
             }
 
-            val totalWaterDrankText = "You drank $totalWaterDrank litres of water!"
             Text(
-                text = totalWaterDrankText,
+                text = stringResource(R.string.challenge_complete_water_text, totalWaterDrank),
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center,
             )
@@ -398,7 +407,7 @@ private fun CompletedFinish(onAnimationFinished: () -> Unit) {
 
     AnimatedVisibility(visible = showText, enter = fadeIn() + expandVertically()) {
         Text(
-            "Challenge Complete!",
+            text = stringResource(R.string.challenge_complete_done),
             style = MaterialTheme.typography.displayMedium,
             textAlign = TextAlign.Center,
         )

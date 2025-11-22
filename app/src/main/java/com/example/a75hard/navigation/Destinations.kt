@@ -106,4 +106,16 @@ object ChallengeComplete: Destination {
     }
 }
 
+object Debug: Destination {
+    override val name = "Debug"
+    override val route = "debug"
+
+    override val icon: @Composable () -> Unit = {
+        Icon(
+            painter = painterResource(R.drawable.ic_search),
+            contentDescription = null
+        )
+    }
+}
+
 val topLevelRoutes = listOf(Home, Settings)

@@ -9,6 +9,7 @@ import com.example.a75hard.screens.ChallengeCompleteScreen
 import com.example.a75hard.screens.LibrariesScreen
 import com.example.a75hard.screens.ChallengeRulesScreen
 import com.example.a75hard.screens.DayScreen
+import com.example.a75hard.screens.DebugScreen
 import com.example.a75hard.screens.HomeScreen
 import com.example.a75hard.screens.SettingsScreen
 import com.example.a75hard.screens.WaterTrackerScreen
@@ -57,9 +58,9 @@ fun NavHost(navController: NavHostController) {
                 onClickAbout = {
                     navController.navigate(route = Libraries.route)
                 },
-//                onClickChallengeComplete = {
-//                    navController.navigate(route = ChallengeComplete.route)
-//                }
+                onClickDebugScreen = {
+                    navController.navigate(route = Debug.route)
+                }
             )
         }
         composable(route = "dayscreen/{dayNumber}") { backStackEntry ->
@@ -84,6 +85,14 @@ fun NavHost(navController: NavHostController) {
         }
         composable(route = ChallengeComplete.route) {
             ChallengeCompleteScreen(navController)
+        }
+        composable(route = Debug.route) {
+            DebugScreen(
+                navController,
+                onChallengeCompleteClick = {
+                    navController.navigate(route = ChallengeComplete.route)
+                }
+            )
         }
     }
 }

@@ -2,6 +2,7 @@
     <string name="app_name">75 Hard</string>
 
     <string name="home_title">75 Hard Challenge</string>
+    <string name="home_challenge_complete_button">Challenge complete!</string>
 
     <string name="challenge_rules_title">Challenge Rules</string>
     <string name="rule_1">Follow a diet - any diet. This could be vegan, keto, calorie tracking, paleo, etc, but it must be structured</string>
@@ -55,4 +56,17 @@
     <string name="challenge_complete_text_1">Congratulations and well done! You have completed the challenge.</string>
     <string name="challenge_complete_text_2">Let\'s look back at the last 75 days.</string>
     <string name="challenge_complete_weight_text">Here\'s how your weight changed:</string>
+    <string name="challenge_complete_water_text">You drank %s litres of water!</string>
+    <string name="challenge_complete_done">Challenge Complete!</string>
+    
+    <string name="challenge_complete_finish_button">Finish</string>
+    <string name="challenge_complete_next_button">Next</string>
+    <string name="challenge_complete_weight_gained">You\'ve gained %skg!</string>
+    <string name="challenge_complete_weight_lost">You\'ve lost %skg!</string>
+    <string name="challenge_complete_weight_stable">Your weight has stayed stable!</string>
+    <string name="challenge_complete_photo_start">Here\'s where you started:</string>
+    <string name="challenge_complete_photo_end">And here\'s where you are now:</string>
+
+    <string name="debug_title">Debug</string>
+    <string name="debug_challenge_complete_button">Open challenge complete screen</string>
 </resources>
