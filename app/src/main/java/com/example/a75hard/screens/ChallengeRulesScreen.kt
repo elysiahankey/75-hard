@@ -108,7 +108,8 @@ fun ChallengeRulesScreen(navController: NavHostController) {
                         R.string.rule_2,
                         R.string.rule_3,
                         R.string.rule_4,
-                        R.string.rule_5
+                        R.string.rule_5,
+                        R.string.rule_6
                     )
 
                     Spacer(modifier = Modifier.size(15.dp))

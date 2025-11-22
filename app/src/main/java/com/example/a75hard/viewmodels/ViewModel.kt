@@ -38,26 +38,27 @@ class ViewModel @Inject constructor(
             R.string.day_screen_pages_read
         )
         const val WATER_GOAL_ML = 3000
+        // TODO("Make water goal configurable from settings")
     }
 
     private val dayNumber: String = savedStateHandle["dayNumber"] ?: "1"
 
     private val dataStoreManager = DataStoreManager(application)
 
+    private val _bookState = MutableStateFlow("")
     private val _waterProgress = MutableStateFlow(0)
     private val _checked = MutableStateFlow(false)
     private val _photoUploaded = MutableStateFlow(false)
-
     private val _hasLoadedWater = MutableStateFlow(false)
+
     private val _hasLoadedPhoto = MutableStateFlow(false)
     private val _hasLoadedCheckboxes = MutableStateFlow(false)
-
     private val _completedDays = MutableStateFlow<Set<String>>(emptySet())
+
     val completedDays: StateFlow<Set<String>> = _completedDays.asStateFlow()
-
     private val _recentlyCompletedDay = MutableStateFlow<String?>(null)
-    val recentlyCompletedDay: StateFlow<String?> = _recentlyCompletedDay
 
+    val recentlyCompletedDay: StateFlow<String?> = _recentlyCompletedDay
     val waterDrank: StateFlow<Int> = _waterProgress
 
     val isDayComplete: StateFlow<Boolean> = combine(
@@ -77,6 +78,7 @@ class ViewModel @Inject constructor(
         loadWaterProgress()
         loadPhotoState()
         loadCheckboxState()
+        loadBookState()
 
         viewModelScope.launch {
             combine(
@@ -126,6 +128,15 @@ class ViewModel @Inject constructor(
             WaterHelper.getWaterProgress(getApplication(), dayNumber).collect { progress ->
                 _waterProgress.value = progress
                 _hasLoadedWater.value = true
+            }
+        }
+    }
+
+    private fun loadBookState() {
+        viewModelScope.launch {
+            // Using the new Flow helper we created in Step 1
+            TodaysBookHelper.getBookFlow(getApplication(), dayNumber).collect { book ->
+                _bookState.value = book
             }
         }
     }
@@ -196,16 +207,23 @@ class ViewModel @Inject constructor(
     }
 
     fun resetDay(dayNumber: String) {
-        resetWater()
         setChecked(false)
         setPhotoUploaded(false)
 
+        if (dayNumber == this.dayNumber) {
+            resetWater()
+            setChecked(false)
+            setPhotoUploaded(false)
+            _bookState.value = ""
+        }
+
         viewModelScope.launch {
+            WaterHelper.saveWaterProgress(getApplication(), 0, dayNumber)
             ProgressPhotoHelper.deletePhoto(getApplication(), dayNumber)
             CheckboxHelper.resetAllCheckboxes(getApplication(), dayNumber, checkboxList)
             WeightHelper.resetWeight(getApplication(), dayNumber)
             NotesHelper.saveNotesState(getApplication(), dayNumber, "")
-            TodaysBookHelper.saveBookState(getApplication(), dayNumber, "")
+            TodaysBookHelper.saveBookState(getApplication(), "", dayNumber)
         }
     }
 

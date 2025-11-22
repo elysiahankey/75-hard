@@ -159,10 +159,9 @@ fun DayScreen(
                     HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
 
                     Notes(dayNumber = dayNumber)
-                    
-                    // An emoji option in the top bar? that also displays in the grid?
 
-                    // Step trackers from Google Health
+//                    TODO("Maybe add an emoji option in the top bar that also displays in the grid?")
+//                    TODO("Add step tracker, maybe from Google Health")
 
                     Button(
                         onClick = { viewModel.resetDay(dayNumber) },

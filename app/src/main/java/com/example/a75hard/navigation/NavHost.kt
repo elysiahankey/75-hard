@@ -5,6 +5,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.a75hard.screens.ChallengeCompleteScreen
 import com.example.a75hard.screens.LibrariesScreen
 import com.example.a75hard.screens.ChallengeRulesScreen
 import com.example.a75hard.screens.DayScreen
@@ -34,7 +35,7 @@ fun NavHost(navController: NavHostController) {
             HomeScreen(
                 navController = navController,
                 onClickDay = { dayNumber ->
-                    navController.navigate(DayScreen.createRoute(dayNumber.toString()))
+                    navController.navigate(DayScreen.createRoute(dayNumber))
                 }
             )
         }
@@ -55,6 +56,9 @@ fun NavHost(navController: NavHostController) {
                 },
                 onClickAbout = {
                     navController.navigate(route = Libraries.route)
+                },
+                onClickChallengeComplete = {
+                    navController.navigate(route = ChallengeComplete.route)
                 }
             )
         }
@@ -77,6 +81,9 @@ fun NavHost(navController: NavHostController) {
         }
         composable(route = Libraries.route) {
             LibrariesScreen(navController)
+        }
+        composable(route = ChallengeComplete.route) {
+            ChallengeCompleteScreen(navController)
         }
     }
 }

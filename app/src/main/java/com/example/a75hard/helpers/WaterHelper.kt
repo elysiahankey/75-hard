@@ -2,7 +2,6 @@ package com.example.a75hard.helpers
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -41,5 +40,20 @@ object WaterHelper {
             }
         }
         return waterEntries
+    }
+
+    suspend fun getTotalWaterInL(context: Context): String {
+        val prefs = context.dataStore.data.first()
+        var totalWater = 0.00
+
+        for (day in 1..75) {
+            val dayNumber = day.toString()
+            val waterKey = intPreferencesKey(getWaterProgressKey(dayNumber))
+            val value = prefs[waterKey] ?: 0
+            totalWater += value
+        }
+
+        totalWater /= 1000
+        return totalWater.toString()
     }
 }

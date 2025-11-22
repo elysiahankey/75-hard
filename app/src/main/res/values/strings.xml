@@ -4,11 +4,12 @@
     <string name="home_title">75 Hard Challenge</string>
 
     <string name="challenge_rules_title">Challenge Rules</string>
-    <string name="rule_1">Follow a diet - any diet. This could be vegan, keto, calorie tracking, paleo, etc, but it must be structured.</string>
-    <string name="rule_2">Complete two 45 minute workouts (One must be outside!)</string>
-    <string name="rule_3">Drink 3 litres of water</string>
-    <string name="rule_4">Read 10 pages of a non-fiction book</string>
-    <string name="rule_5">Take a photo to track your progress</string>
+    <string name="rule_1">Follow a diet - any diet. This could be vegan, keto, calorie tracking, paleo, etc, but it must be structured</string>
+    <string name="rule_2">No alcohol</string>
+    <string name="rule_3">Complete two 45 minute workouts (One must be outside!)</string>
+    <string name="rule_4">Drink 3.8 litres of water</string>
+    <string name="rule_5">Read 10 pages of a non-fiction book</string>
+    <string name="rule_6">Take a photo to track your progress</string>
     <string name="challenge_fail_text">75 Hard is a mental toughness program. There are no rest days. If you fail any of the rules for a day, you must start the challenge again from day 1.</string>
 
     <string name="day_title">Day</string>
@@ -44,9 +45,14 @@
     <string name="settings_weight_tracker_button">Weight tracker</string>
     <string name="settings_water_tracker_button">Water tracker</string>
     <string name="settings_libraries_button">Libraries</string>
-    <string name="settings_reset_all_button">Reset all</string>
+    <string name="settings_reset_all_button">Reset challenge</string>
     <string name="reset_app_dialog_title">Reset app?</string>
     <string name="reset_app_dialog_text">Are you sure you want to reset all days? This will delete all progress and photos.</string>
     <string name="reset_app_dialog_confirm">Reset</string>
     <string name="reset_app_dialog_cancel">Cancel</string>
+
+    <string name="challenge_complete_title">You did it!</string>
+    <string name="challenge_complete_text_1">Congratulations and well done! You have completed the challenge.</string>
+    <string name="challenge_complete_text_2">Let\'s look back at the last 75 days.</string>
+    <string name="challenge_complete_weight_text">Here\'s how your weight changed:</string>
 </resources>

@@ -94,4 +94,16 @@ object Libraries: Destination {
     }
 }
 
+object ChallengeComplete: Destination {
+    override val name = "Challenge Complete"
+    override val route = "challengeComplete"
+
+    override val icon: @Composable () -> Unit = {
+        Icon(
+            painter = painterResource(R.drawable.ic_search),
+            contentDescription = null
+        )
+    }
+}
+
 val topLevelRoutes = listOf(Home, Settings)

@@ -48,6 +48,7 @@ fun SettingsScreen(
     onClickWaterTracker: () -> Unit,
     onClickRules: () -> Unit,
     onClickAbout: () -> Unit,
+    onClickChallengeComplete: () -> Unit,
     viewModel: ViewModel = hiltViewModel()
 ) {
     Scaffold(
@@ -146,6 +147,11 @@ fun SettingsScreen(
                         onClick = { onClickAbout() },
                         label = stringResource(R.string.settings_libraries_button)
                     )
+                    HorizontalDivider()
+                    SettingsButton(
+                        onClick = { onClickChallengeComplete() },
+                        label = "Challenge Complete Screen"
+                    )
                 }
                 Box(
                     modifier = Modifier
@@ -172,6 +178,7 @@ fun SettingsScreenPreview() {
         onClickWeightTracker = {},
         onClickWaterTracker = {},
         onClickRules = {},
-        onClickAbout = {}
+        onClickAbout = {},
+        onClickChallengeComplete = {}
     )
 }
