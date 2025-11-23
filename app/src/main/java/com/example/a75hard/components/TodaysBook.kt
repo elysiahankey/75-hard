@@ -89,6 +89,13 @@ fun TodaysBook(dayNumber: String) {
                         modifier = Modifier
                             .clickable {
                                 inputText = ""
+                                coroutineScope.launch {
+                                    saveBookState(
+                                        context = context,
+                                        dayNumber = dayNumber,
+                                        bookText = "<cleared>"
+                                    )
+                                }
                             }
                     )
                 },

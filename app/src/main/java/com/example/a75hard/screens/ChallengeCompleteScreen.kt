@@ -314,10 +314,7 @@ fun CompletedWeight(context: Context, onAnimationFinished: () -> Unit) {
 }
 
 @Composable
-fun CompletedPhotoProgress(
-    context: Context,
-    onAnimationFinished: () -> Unit
-) {
+fun CompletedPhotoProgress(context: Context, onAnimationFinished: () -> Unit) {
 
     var showDay1 by remember { mutableStateOf(false) }
     var showDay75 by remember { mutableStateOf(false) }
@@ -337,7 +334,7 @@ fun CompletedPhotoProgress(
     val day75Photo by ProgressPhotoHelper.getPhotoState(context, "75")
         .collectAsState(initial = "")
 
-    if (day1Photo.isNotBlank() && day75Photo.isNotBlank()) {
+    if (day1Photo.isNotBlank()) {
         AnimatedVisibility(
             visible = showDay1,
             enter = fadeIn() + expandVertically()
@@ -367,9 +364,11 @@ fun CompletedPhotoProgress(
                 }
             }
         }
+    }
 
-        Spacer(modifier = Modifier.height(20.dp))
+    Spacer(modifier = Modifier.height(20.dp))
 
+    if (day75Photo.isNotBlank()) {
         AnimatedVisibility(
             visible = showDay75,
             enter = fadeIn() + expandVertically()
