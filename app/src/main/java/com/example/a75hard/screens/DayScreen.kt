@@ -191,14 +191,3 @@ fun DayScreen(
         }
     }
 }
-
-@Preview
-@Composable
-fun DayScreenPreview() {
-    val navController = rememberNavController()
-
-    DayScreen(
-        navController = navController,
-        "1"
-    )
-}

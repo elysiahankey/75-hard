@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -45,24 +46,32 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.a75hard.R
 import com.example.a75hard.components.WeightChart
 import com.example.a75hard.helpers.ProgressPhotoHelper
 import com.example.a75hard.helpers.WaterHelper.getTotalWaterInL
 import com.example.a75hard.helpers.WeightHelper.getAllWeights
 import com.example.a75hard.helpers.WeightHelper.getWeightChange
+import com.example.a75hard.viewmodels.ViewModel
+import kotlinx.coroutines.delay
 import kotlin.math.abs
 
 private enum class ChallengeStep {
-    INTRO, WEIGHT, PHOTOS, WATER, FINISHED
+    INTRO, WEIGHT, PHOTOS, WATER, BOOKS, FINISHED
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChallengeCompleteScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: ViewModel = hiltViewModel()
 ) {
 
     Scaffold { innerPadding ->
@@ -72,13 +81,20 @@ fun ChallengeCompleteScreen(
         var isNextButtonVisible by remember { mutableStateOf(false) }
         val context = LocalContext.current
 
-        Column(
+        val bookList by viewModel.allBooks.collectAsState()
+        val bookCount = bookList.size
+
+        LaunchedEffect(Unit) {
+            viewModel.loadAllBooks()
+        }
+
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
         ) {
             Box(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
                 Column(
@@ -99,17 +115,30 @@ fun ChallengeCompleteScreen(
                         ) {
                             when (step) {
                                 ChallengeStep.INTRO -> CompletedIntro { isNextButtonVisible = true }
-                                ChallengeStep.WEIGHT -> CompletedWeight(context) { isNextButtonVisible = true }
+                                ChallengeStep.WEIGHT -> CompletedWeight(context) {
+                                    isNextButtonVisible = true
+                                }
+
                                 ChallengeStep.PHOTOS -> {
                                     CompletedPhotoProgress(context) {
                                         isNextButtonVisible = true
                                     }
                                 }
-                                ChallengeStep.WATER -> CompletedWater(context) { isNextButtonVisible = true }
-                                ChallengeStep.FINISHED -> CompletedFinish { isNextButtonVisible = true }
+
+                                ChallengeStep.WATER -> CompletedWater(context) {
+                                    isNextButtonVisible = true
+                                }
+
+                                ChallengeStep.BOOKS -> CompletedBooks(bookList, bookCount) {
+                                    isNextButtonVisible = true
+                                }
+
+                                ChallengeStep.FINISHED -> CompletedFinish {
+                                    isNextButtonVisible = true
+                                }
                             }
 
-                            Spacer(modifier = Modifier.height(40.dp))
+                            Spacer(modifier = Modifier.height(100.dp))
 
                         }
                     }
@@ -118,14 +147,14 @@ fun ChallengeCompleteScreen(
             AnimatedVisibility(
                 visible = isNextButtonVisible,
                 enter = fadeIn(),
-                exit = fadeOut()
+                exit = fadeOut(),
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(16.dp)
+                    .fillMaxWidth()
             ) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Bottom
                 ) {
                     Button(
                         onClick = {
@@ -140,6 +169,7 @@ fun ChallengeCompleteScreen(
                                     ChallengeStep.INTRO -> ChallengeStep.WEIGHT
                                     ChallengeStep.WEIGHT -> ChallengeStep.PHOTOS
                                     ChallengeStep.PHOTOS -> ChallengeStep.WATER
+                                    ChallengeStep.WATER -> if (bookCount > 0) ChallengeStep.BOOKS else ChallengeStep.FINISHED
                                     else -> ChallengeStep.FINISHED
                                 }
 
@@ -169,13 +199,13 @@ fun CompletedIntro(onAnimationFinished: () -> Unit) {
     var showText2 by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        kotlinx.coroutines.delay(300)
+        delay(300)
         showTitle = true
-        kotlinx.coroutines.delay(1000)
+        delay(1000)
         showText1 = true
-        kotlinx.coroutines.delay(1000)
+        delay(1000)
         showText2 = true
-        kotlinx.coroutines.delay(1000)
+        delay(1000)
         onAnimationFinished()
     }
 
@@ -220,13 +250,13 @@ fun CompletedWeight(context: Context, onAnimationFinished: () -> Unit) {
     var showText by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        kotlinx.coroutines.delay(300)
+        delay(300)
         showTitle = true
-        kotlinx.coroutines.delay(1000)
+        delay(1000)
         showChart = true
-        kotlinx.coroutines.delay(2500)
+        delay(2500)
         showText = true
-        kotlinx.coroutines.delay(1000)
+        delay(1000)
         onAnimationFinished()
     }
 
@@ -254,6 +284,8 @@ fun CompletedWeight(context: Context, onAnimationFinished: () -> Unit) {
             WeightChart(weightEntries = weightEntries)
         }
 
+        Spacer(modifier = Modifier.height(20.dp))
+
         AnimatedVisibility(visible = showText, enter = fadeIn() + expandVertically()) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -273,6 +305,7 @@ fun CompletedWeight(context: Context, onAnimationFinished: () -> Unit) {
                 Text(
                     text = weightChangeText,
                     style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.primary,
                     textAlign = TextAlign.Center,
                 )
             }
@@ -290,11 +323,11 @@ fun CompletedPhotoProgress(
     var showDay75 by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        kotlinx.coroutines.delay(300)
+        delay(300)
         showDay1 = true
-        kotlinx.coroutines.delay(1500)
+        delay(1500)
         showDay75 = true
-        kotlinx.coroutines.delay(1000)
+        delay(1000)
         onAnimationFinished()
     }
 
@@ -369,27 +402,101 @@ fun CompletedWater(context: Context, onAnimationFinished: () -> Unit) {
     var showText by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        kotlinx.coroutines.delay(300)
+        delay(300)
         showText = true
-        kotlinx.coroutines.delay(1000)
+        delay(1000)
         onAnimationFinished()
     }
 
     AnimatedVisibility(visible = showText, enter = fadeIn() + expandVertically()) {
-        Row(
+        Box(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+            contentAlignment = Alignment.Center
         ) {
             val totalWaterDrank by produceState(initialValue = "", context) {
                 value = getTotalWaterInL(context)
             }
 
-            Text(
-                text = stringResource(R.string.challenge_complete_water_text, totalWaterDrank),
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Center,
+            Box(
+                modifier = Modifier.width(200.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.challenge_complete_water_text, totalWaterDrank),
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Center,
+                )
+            }
+
+            val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.water_lottie))
+            val progress by animateLottieCompositionAsState(
+                composition = composition,
+                iterations = 1
             )
+
+            LottieAnimation(
+                composition = composition,
+                progress = { progress },
+                modifier = Modifier
+                    .zIndex(-1f)
+                    .height(300.dp)
+            )
+        }
+
+    }
+}
+
+@Composable
+fun CompletedBooks(bookList: List<String>, bookCount: Int, onAnimationFinished: () -> Unit) {
+    var showCount by remember { mutableStateOf(false) }
+    var showHeader by remember { mutableStateOf(false) }
+    var showBooks by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        delay(300)
+        showCount = true
+        delay(1000)
+        showHeader = true
+        delay(1000)
+        showBooks = true
+        delay(1000)
+        onAnimationFinished()
+    }
+
+    if (bookList.isNotEmpty()) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            AnimatedVisibility(visible = showCount, enter = fadeIn() + expandVertically()) {
+                Text(
+                    text = stringResource(R.string.challenge_complete_book_count, bookCount),
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.primary,
+                    textAlign = TextAlign.Center,
+                )
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            AnimatedVisibility(visible = showHeader, enter = fadeIn() + expandVertically()) {
+                Text(
+                    text = stringResource(R.string.challenge_complete_book_header),
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Center,
+                )
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            bookList.forEach { bookTitle ->
+                AnimatedVisibility(visible = showBooks, enter = fadeIn() + expandVertically()) {
+                    Text(
+                        text = bookTitle,
+                        style = MaterialTheme.typography.titleMedium,
+                        textAlign = TextAlign.Center,
+                    )
+                }
+            }
         }
     }
 }
@@ -399,9 +506,9 @@ private fun CompletedFinish(onAnimationFinished: () -> Unit) {
     var showText by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        kotlinx.coroutines.delay(300)
+        delay(300)
         showText = true
-        kotlinx.coroutines.delay(1000)
+        delay(1000)
         onAnimationFinished()
     }
 
@@ -412,11 +519,4 @@ private fun CompletedFinish(onAnimationFinished: () -> Unit) {
             textAlign = TextAlign.Center,
         )
     }
-}
-
-@Preview
-@Composable
-fun ChallengeCompleteScreenPreview() {
-    val navController = rememberNavController()
-    ChallengeCompleteScreen(navController = navController)
 }

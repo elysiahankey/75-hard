@@ -14,13 +14,17 @@ import com.example.a75hard.helpers.TodaysBookHelper
 import com.example.a75hard.helpers.WaterHelper
 import com.example.a75hard.helpers.WeightHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -55,6 +59,7 @@ class ViewModel @Inject constructor(
     private val dataStoreManager = DataStoreManager(application)
 
     private val _bookState = MutableStateFlow("")
+    private val _allBooks = MutableStateFlow<List<String>>(emptyList())
     private val _waterProgress = MutableStateFlow(0)
     private val _checked = MutableStateFlow(false)
     private val _photoUploaded = MutableStateFlow(false)
@@ -69,6 +74,7 @@ class ViewModel @Inject constructor(
 
     val recentlyCompletedDay: StateFlow<String?> = _recentlyCompletedDay
     val waterDrank: StateFlow<Int> = _waterProgress
+    val allBooks = _allBooks.asStateFlow()
 
     val isDayComplete: StateFlow<Boolean> = combine(
         _checked, waterDrank, _photoUploaded
@@ -149,6 +155,34 @@ class ViewModel @Inject constructor(
         }
     }
 
+    fun getAllBooksRead(): Flow<List<String>> = flow {
+        val bookTasks = (1..75).map { day ->
+            val dayString = day.toString()
+            viewModelScope.async {
+                val bookTitle = TodaysBookHelper.getBookFlow(getApplication(), dayString).first()
+                bookTitle
+            }
+        }
+
+        val allEntries = bookTasks.awaitAll()
+
+        val uniqueBooks = allEntries
+            .filter { it.isNotBlank() }
+            .map { it.trim() }
+            .toSet()
+            .toList()
+
+        emit(uniqueBooks)
+    }
+
+    fun loadAllBooks() {
+        viewModelScope.launch {
+            getAllBooksRead().collect { books ->
+                _allBooks.value = books
+            }
+        }
+    }
+
     private fun loadPhotoState() {
         viewModelScope.launch {
             ProgressPhotoHelper.getPhotoState(getApplication(), dayNumber).collect { path ->
@@ -193,7 +227,6 @@ class ViewModel @Inject constructor(
         }
     }
 
-
     fun markDayIncomplete(day: String) {
         viewModelScope.launch {
             val current = dataStoreManager.completedDays.first()
@@ -208,7 +241,6 @@ class ViewModel @Inject constructor(
             }
         }
     }
-
 
     fun clearRecentlyCompletedDay() {
         _recentlyCompletedDay.value = null

@@ -66,6 +66,8 @@
     <string name="challenge_complete_weight_stable">Your weight has stayed stable!</string>
     <string name="challenge_complete_photo_start">Here\'s where you started:</string>
     <string name="challenge_complete_photo_end">And here\'s where you are now:</string>
+    <string name="challenge_complete_book_count">You\'ve read %s books!</string>
+    <string name="challenge_complete_book_header">Here\'s all the books you read:</string>
 
     <string name="debug_title">Debug</string>
     <string name="debug_challenge_complete_button">Open challenge complete screen</string>
