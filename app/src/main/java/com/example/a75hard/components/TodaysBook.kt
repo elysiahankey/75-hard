@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.a75hard.R
 import com.example.a75hard.helpers.TodaysBookHelper.getOrInitBookState
+import com.example.a75hard.helpers.TodaysBookHelper.getYesterdaysBook
 import com.example.a75hard.helpers.TodaysBookHelper.saveBookState
 import kotlinx.coroutines.launch
 
@@ -93,7 +95,7 @@ fun TodaysBook(dayNumber: String) {
                                     saveBookState(
                                         context = context,
                                         dayNumber = dayNumber,
-                                        bookText = "<cleared>"
+                                        bookText = ""
                                     )
                                 }
                             }
@@ -103,11 +105,34 @@ fun TodaysBook(dayNumber: String) {
                     .fillMaxWidth(),
             )
         }
+
+        if (dayNumber != "1") {
+            Spacer(modifier = Modifier.height(12.dp))
+            Button(
+                onClick = {
+                    coroutineScope.launch {
+                        inputText = getYesterdaysBook(context, dayNumber)
+                        saveBookState(
+                            context = context,
+                            dayNumber = dayNumber,
+                            bookText = inputText
+                        )
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp),
+            ) {
+                Text(
+                    text = stringResource(R.string.todays_book_copy_yesterday)
+                )
+            }
+        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun TodaysBookPreview() {
-    TodaysBook(dayNumber = "1")
+    TodaysBook(dayNumber = "2")
 }

@@ -16,39 +16,32 @@ object TodaysBookHelper {
         val dayKey = stringPreferencesKey(getBookKey(dayNumber))
         return context.dataStore.data.map { prefs ->
             val dayValue = prefs[dayKey]
-            if (dayValue == "<cleared>") "" else dayValue ?: ""
+            dayValue ?: ""
         }
     }
 
     suspend fun getOrInitBookState(context: Context, dayNumber: String): String {
         val dayKey = stringPreferencesKey(getBookKey(dayNumber))
-        val latestKey = stringPreferencesKey("latestBookState")
 
         val prefs = context.dataStore.data.first()
         val dayValue = prefs[dayKey]
 
-        return when {
-            dayValue == "<cleared>" -> ""
-            dayValue != null -> dayValue
-            else -> {
-                val fallback = prefs[latestKey] ?: ""
-                context.dataStore.edit { it[dayKey] = fallback }
-                fallback
-            }
-        }
+        return dayValue ?: ""
+    }
+
+
+    suspend fun getYesterdaysBook(context: Context, dayNumber: String): String {
+        val yesterday = dayNumber.toInt() - 1
+        val yesterdayString = yesterday.toString()
+
+        return getOrInitBookState(context, yesterdayString)
     }
 
     suspend fun saveBookState(context: Context, bookText: String, dayNumber: String) {
         val dayKey = stringPreferencesKey(getBookKey(dayNumber))
-        val latestKey = stringPreferencesKey("latestBookState")
 
         context.dataStore.edit {
-            it[dayKey] = bookText.ifBlank { "<cleared>" }
-            if (bookText.isNotBlank()) {
-                it[latestKey] = bookText
-            } else {
-                it.remove(latestKey)
-            }
+            it[dayKey] = bookText
         }
     }
 

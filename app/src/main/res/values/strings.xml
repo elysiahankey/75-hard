@@ -26,6 +26,8 @@
     <string name="day_screen_notes_title">Notes</string>
     <string name="day_screen_reset_day_button">Reset day</string>
 
+    <string name="todays_book_copy_yesterday">Copy from yesterday</string>
+
     <string name="water_tracker_input_label">Add water</string>
     <string name="water_tracker_button_label">Add</string>
     <string name="water_tracker_reset_button_label">Reset water intake</string>
@@ -55,20 +57,29 @@
     <string name="challenge_complete_title">You did it!</string>
     <string name="challenge_complete_text_1">Congratulations and well done! You have completed the challenge.</string>
     <string name="challenge_complete_text_2">Let\'s look back at the last 75 days.</string>
+
     <string name="challenge_complete_weight_text">Here\'s how your weight changed:</string>
-    <string name="challenge_complete_water_text">You drank %s litres of water!</string>
-    <string name="challenge_complete_done">Challenge Complete!</string>
-    
-    <string name="challenge_complete_finish_button">Finish</string>
-    <string name="challenge_complete_next_button">Next</string>
     <string name="challenge_complete_weight_gained">You\'ve gained %skg!</string>
     <string name="challenge_complete_weight_lost">You\'ve lost %skg!</string>
     <string name="challenge_complete_weight_stable">Your weight has stayed stable!</string>
+
+    <string name="challenge_complete_water_text">You drank %s litres of water!</string>
+
     <string name="challenge_complete_photo_start">Here\'s where you started:</string>
     <string name="challenge_complete_photo_end">And here\'s where you are now:</string>
+
     <string name="challenge_complete_book_count">You\'ve read %s books!</string>
     <string name="challenge_complete_book_header">Here\'s all the books you read:</string>
 
+    <string name="challenge_complete_next_button">Next</string>
+
+    <string name="challenge_complete_done">Challenge Complete!</string>
+    <string name="challenge_complete_finish_button">Finish</string>
+
     <string name="debug_title">Debug</string>
-    <string name="debug_challenge_complete_button">Open challenge complete screen</string>
+    <string name="debug_challenge_complete_button">See challenge complete</string>
+    <string name="debug_clear_books_button">Clear book data</string>
+    <string name="clear_books_dialog_title">Are you sure?</string>
+    <string name="clear_books_dialog_text">This will clear all books</string>
+    <string name="clear_books_dialog_confirm">Clear</string>
 </resources>

@@ -267,6 +267,15 @@ class ViewModel @Inject constructor(
         }
     }
 
+    fun clearAllBooks() {
+        viewModelScope.launch {
+            for (day in 1..75) {
+                val dayNumber = day.toString()
+                TodaysBookHelper.saveBookState(getApplication(), "", dayNumber)
+            }
+        }
+    }
+
     fun resetAllDays() {
         viewModelScope.launch {
             for (day in 1..75) {

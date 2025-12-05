@@ -11,10 +11,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,16 +31,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.a75hard.R
 import com.example.a75hard.components.SettingsButton
 import com.example.a75hard.navigation.BottomNavBar
+import com.example.a75hard.viewmodels.ViewModel
 
 @Composable
 fun DebugScreen(
     navController: NavHostController,
-    onChallengeCompleteClick: () -> Unit
+    onChallengeCompleteClick: () -> Unit,
+    viewModel: ViewModel = hiltViewModel()
 ) {
+
+    var showResetDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         bottomBar = {
@@ -96,7 +103,31 @@ fun DebugScreen(
                         onClick = { onChallengeCompleteClick() },
                         label = stringResource(R.string.debug_challenge_complete_button)
                     )
-
+                    HorizontalDivider()
+                    SettingsButton(
+                        onClick = { showResetDialog = true },
+                        label = stringResource(R.string.debug_clear_books_button)
+                    )
+                    if (showResetDialog) {
+                        AlertDialog(
+                            onDismissRequest = { showResetDialog = false },
+                            title = { Text(stringResource(R.string.clear_books_dialog_title)) },
+                            text = { Text(stringResource(R.string.clear_books_dialog_text)) },
+                            confirmButton = {
+                                TextButton(onClick = {
+                                    viewModel.clearAllBooks()
+                                    showResetDialog = false
+                                }) {
+                                    Text(stringResource(R.string.clear_books_dialog_confirm))
+                                }
+                            },
+                            dismissButton = {
+                                TextButton(onClick = { showResetDialog = false }) {
+                                    Text(stringResource(R.string.reset_app_dialog_cancel))
+                                }
+                            }
+                        )
+                    }
                 }
             }
         }
